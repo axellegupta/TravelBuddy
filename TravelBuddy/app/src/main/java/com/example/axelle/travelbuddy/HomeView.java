@@ -1,6 +1,7 @@
 package com.example.axelle.travelbuddy;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -50,9 +51,21 @@ public class HomeView extends AppCompatActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment;
+        FragmentManager fragmentManager = getSupportFragmentManager(); // For AppCompat use getSupportFragmentManager
+        switch(position) {
+            case 0:
+                fragment= new NewBooking().newInstance(position+1);
+                break;
+            case 1:
+                fragment = new BookingFragment().newInstance(position+1);
+                break;
+            default:
+                fragment = new PlaceholderFragment().newInstance(position+1);
+                break;
+        }
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
@@ -103,7 +116,10 @@ public class HomeView extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -118,6 +134,7 @@ public class HomeView extends AppCompatActivity
          * The fragment argument representing the section number for this
          * fragment.
          */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         /**
@@ -138,12 +155,71 @@ public class HomeView extends AppCompatActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            if(ARG_SECTION_NUMBER=="2"){
-            View rootView = inflater.inflate(R.layout.booking_fragment, container, false);
-            return rootView;}
-            else {
+
                 View rootView = inflater.inflate(R.layout.fragment_home_view, container, false);
-            return rootView;}
+            return rootView;
+
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((HomeView) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+    public static class BookingFragment extends Fragment {
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public static BookingFragment newInstance(int sectionNumber) {
+            BookingFragment fragment = new BookingFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public BookingFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View rootView = inflater.inflate(R.layout.fragment_booking, container, false);
+            return rootView;
+
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((HomeView) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
+
+    public static class NewBooking extends Fragment {
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public static NewBooking newInstance(int sectionNumber) {
+           NewBooking fragment = new NewBooking();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public NewBooking() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View rootView = inflater.inflate(R.layout.fragment_new_booking, container, false);
+            return rootView;
 
         }
 

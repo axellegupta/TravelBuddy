@@ -1,0 +1,30 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.example.axelle.travelbuddy.NewBooking">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <SearchView
+        android:layout_width="285dp"
+        android:layout_height="103dp"
+        android:id="@+id/Start"
+        android:layout_gravity="center_horizontal|top"
+        android:queryHint="Pick Starting Destination" />
+
+    <SeekBar
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_gravity="center_horizontal|bottom"
+        android:max="10"
+        android:progress="1"
+        android:indeterminate="true" />
+
+    <SearchView
+        android:layout_width="285dp"
+        android:layout_height="103dp"
+        android:id="@+id/searchView"
+        android:layout_gravity="center"
+        android:queryHint="Pick Target Destination" />
+
+</FrameLayout>
