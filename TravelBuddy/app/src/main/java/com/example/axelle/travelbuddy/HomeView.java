@@ -67,6 +67,9 @@ public class HomeView extends AppCompatActivity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
         }
     }
 
@@ -109,6 +112,7 @@ public class HomeView extends AppCompatActivity
     /**
      * A placeholder fragment containing a simple view.
      */
+
     public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
@@ -134,8 +138,13 @@ public class HomeView extends AppCompatActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_home_view, container, false);
-            return rootView;
+            if(ARG_SECTION_NUMBER=="2"){
+            View rootView = inflater.inflate(R.layout.booking_fragment, container, false);
+            return rootView;}
+            else {
+                View rootView = inflater.inflate(R.layout.fragment_home_view, container, false);
+            return rootView;}
+
         }
 
         @Override

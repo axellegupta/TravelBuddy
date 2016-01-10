@@ -1,17 +1,18 @@
 <resources>
     <string name="app_name">TravelBuddy</string>
+    <string name="user_name">Akanksha</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Exit App</string>
     <string name="title_activity_home_view">HomeView</string>
 
-    <string name="title_section1">View Profile</string>
-    <string name="title_section2">Future Bookings</string>
-    <string name="title_section3">Travel History</string>
-    <string name="title_section4">Log Out</string>
+    <string name="title_section1">Book Buddies</string>
+    <string name="title_section2">All Bookings</string>
+    <string name="title_section3">Buddies U Know</string>
+    <string name="title_section4">LogOut</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_example">Leave</string>
+    <string name="action_example">Howdy Bud</string>
 </resources>
