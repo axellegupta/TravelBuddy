@@ -7,24 +7,23 @@
     <SearchView
         android:layout_width="285dp"
         android:layout_height="103dp"
-        android:id="@+id/Start"
-        android:layout_gravity="center_horizontal|top"
-        android:queryHint="Pick Starting Destination" />
+        android:id="@+id/searchView"
+        android:layout_gravity="center"
+        android:queryHint="Pick Target Destination" />
 
-    <SeekBar
-        android:layout_width="311dp"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
+        android:text="Go To Maps"
+        android:id="@+id/button"
         android:layout_gravity="center_horizontal|bottom"
-        android:max="10"
-        android:progress="1"
-        android:indeterminate="true" />
+        android:onClick="openMap" />
 
     <SearchView
         android:layout_width="285dp"
         android:layout_height="103dp"
-        android:id="@+id/searchView"
-        android:layout_gravity="center"
-        android:queryHint="Pick Target Destination" />
+        android:id="@+id/Start"
+        android:layout_gravity="center_horizontal|top"
+        android:queryHint="Pick Starting Destination" />
 
 </FrameLayout>

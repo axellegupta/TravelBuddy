@@ -56,17 +56,34 @@ public class HomeView extends AppCompatActivity
         switch(position) {
             case 0:
                 fragment= new NewBooking().newInstance(position+1);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
                 break;
             case 1:
                 fragment = new BookingFragment().newInstance(position+1);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
+                break;
+            case 2:
+                fragment = new PlaceholderFragment().newInstance(position+1);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
+                break;
+            case 3:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
                 break;
             default:
                 fragment = new PlaceholderFragment().newInstance(position+1);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
                 break;
         }
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
+
     }
 
     public void onSectionAttached(int number) {
@@ -123,6 +140,11 @@ public class HomeView extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openMap(View view) {
+        Intent intent = new Intent(this, BookingFragment.class);
+        startActivity(intent);
     }
 
     /**

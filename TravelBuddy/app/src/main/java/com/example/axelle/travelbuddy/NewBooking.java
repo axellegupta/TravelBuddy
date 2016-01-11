@@ -1,6 +1,7 @@
 package com.example.axelle.travelbuddy;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -105,5 +106,7 @@ public class NewBooking extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 
 }
