@@ -143,7 +143,7 @@ public class HomeView extends AppCompatActivity
     }
 
     public void openMap(View view) {
-        Intent intent = new Intent(this, BookingFragment.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
@@ -244,6 +244,8 @@ public class HomeView extends AppCompatActivity
             return rootView;
 
         }
+
+
 
         @Override
         public void onAttach(Activity activity) {
