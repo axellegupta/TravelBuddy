@@ -4,12 +4,17 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <SearchView
-        android:layout_width="285dp"
-        android:layout_height="103dp"
-        android:id="@+id/searchView"
-        android:layout_gravity="center"
-        android:queryHint="Pick Target Destination" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_gravity="center_horizontal|top"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:gravity="center_vertical|center|center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
@@ -17,13 +22,18 @@
         android:text="Go To Maps"
         android:id="@+id/button"
         android:layout_gravity="center_horizontal|bottom"
-        android:onClick="openMap" />
+        android:onClick="openMap"
+        android:textSize="24dp"
+        android:textStyle="bold" />
 
-    <SearchView
-        android:layout_width="285dp"
-        android:layout_height="103dp"
-        android:id="@+id/Start"
-        android:layout_gravity="center_horizontal|top"
-        android:queryHint="Pick Starting Destination" />
+    <TextView
+        android:layout_width="283dp"
+        android:layout_height="116dp"
+        android:text="How are you doing Buddy? Welcome to TravelBuddy. Go To Maps to book your buddies."
+        android:id="@+id/textView"
+        android:layout_gravity="center"
+        android:textSize="24dp"
+        android:textStyle="normal|italic"
+        android:gravity="center_vertical|center|center_horizontal" />
 
 </FrameLayout>

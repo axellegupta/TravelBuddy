@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">TravelBuddy</string>
     <string name="user_name">Akanksha</string>
+    <string name="search_title">Hong Kong</string>
+
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Exit App</string>

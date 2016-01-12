@@ -1,9 +1,23 @@
+
 <fragment
     android:name="com.google.android.gms.maps.MapFragment"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/map"
     tools:context="com.example.axelle.travelbuddy.MapsActivity"
-    tools:layout="@layout/abc_action_bar_title_item" />
+    tools:layout="@layout/abc_action_bar_title_item" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+</fragment>
