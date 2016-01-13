@@ -3,6 +3,7 @@ package com.example.axelle.travelbuddy;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -18,8 +21,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-      //  Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-       //  setSupportActionBar(myToolbar);
+
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -36,25 +38,47 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // You can customize the marker image using images bundled with
         // your app, or dynamically generated bitmaps.
         final LatLng A = new LatLng(22.2783, 114.1747);
-        Marker a = map.addMarker(new MarkerOptions()
+        final Marker a = map.addMarker(new MarkerOptions()
                 .position(A)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.common_plus_signin_btn_icon_dark_disabled))
                 .draggable(true)
                 .title("START")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
         final LatLng B = new LatLng(22.2780, 114.1740);
-        Marker b = map.addMarker(new MarkerOptions()
+        final Marker b = map.addMarker(new MarkerOptions()
                 .position(B)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.common_plus_signin_btn_icon_dark_disabled))
                 .draggable(true)
                 .title("END")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
-       /* map.addMarker(new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.common_plus_signin_btn_icon_dark_disabled))
-                .anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
-                .position(new LatLng(0, 0)));*/
+       map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+
+            @Override
+            public void onMarkerDragStart(Marker M0) {  }
+
+            @Override
+            public void onMarkerDragEnd(Marker M0) {
+
+                LatLng start = a.getPosition();
+                LatLng end = b.getPosition();
+
+
+             //   TextView txtStart = (TextView)findViewById(R.id.ptA);
+              //  txtStart.setText(start.latitude + "," + start.longitude);
+                Toast.makeText(getApplicationContext(), "START: "+start.latitude + "," + start.longitude, Toast.LENGTH_SHORT).show();
+
+                //TextView txtEnd = (TextView)findViewById(R.id.ptB);
+               // txtEnd.setText(end.latitude + "," + end.longitude);
+                Toast.makeText(getApplicationContext(), "END: "+end.latitude + "," + end.longitude, Toast.LENGTH_SHORT).show();
+
+
+            }
+
+            @Override
+            public void onMarkerDrag(Marker M0) {     }
+
+        });
+
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
