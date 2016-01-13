@@ -12,9 +12,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
@@ -25,6 +28,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -51,6 +55,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .title("END")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
+        final Button ra = (Button) findViewById(R.id.ra);
+        ra.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+      //          a.setPosition();
+            }
+        });
+
+        final Button rb = (Button) findViewById(R.id.rb);
+        rb.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+       //         b.setPosition();
+
+            }
+        });
+
        map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
 
             @Override
@@ -58,13 +77,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onMarkerDragEnd(Marker M0) {
-
                 LatLng start = a.getPosition();
                 LatLng end = b.getPosition();
 
-
                 TextView txtStart = (TextView)findViewById(R.id.ptA);
-               txtStart.setText(start.latitude + "," + start.longitude);
+                txtStart.setText(start.latitude + "," + start.longitude);
                 Toast.makeText(getApplicationContext(), "START: "+start.latitude + "," + start.longitude, Toast.LENGTH_SHORT).show();
 
              TextView txtEnd = (TextView)findViewById(R.id.ptB);
@@ -86,9 +103,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        // Configure the search info and add any event listeners...
-
         return super.onCreateOptionsMenu(menu);
     }
 }

@@ -10,7 +10,10 @@
     android:layout_height="match_parent"
     android:id="@+id/map"
     tools:context="com.example.axelle.travelbuddy.MapsActivity"
-    tools:layout="@layout/abc_action_bar_title_item" >
+    tools:layout="@layout/abc_action_bar_title_item"
+    android:layout_below="@+id/ptB"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -34,7 +37,8 @@
         android:background="@android:color/darker_gray"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_margin="1dp" />
     <TextView
         android:id="@+id/ptB"
         android:layout_width="300dp"
@@ -44,16 +48,14 @@
         android:background="@android:color/darker_gray"
         android:layout_below="@+id/ptA"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-<RadioGroup
-    android:id="@+id/rgroup"
-    android:layout_width="wrap_content"
-    android:layout_height="50dp">
-    <RadioButton
-        android:layout_width="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="1dp" />
+
+    <Button
+        android:layout_width="match_parent"
         android:layout_height="24dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="START"
+        android:text="Set Start Poin"
         android:id="@+id/ra"
         android:layout_alignParentTop="true"
         android:layout_alignBottom="@+id/ptA"
@@ -65,13 +67,14 @@
         android:textSize="18dp"
         android:textStyle="bold"
         android:drawable="@color/abc_background_cache_hint_selector_material_dark"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:layout_margin="1dp" />
 
-    <RadioButton
-        android:layout_width="wrap_content"
+    <Button
+        android:layout_width="match_parent"
         android:layout_height="24dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="END"
+        android:text="Set End Point"
         android:id="@+id/rb"
         android:gravity="center_vertical|center|center_horizontal"
         android:textSize="18dp"
@@ -83,6 +86,6 @@
         android:drawable="@color/abc_background_cache_hint_selector_material_dark"
         android:textColor="@android:color/white"
         android:layout_toLeftOf="@+id/ptB"
-        android:layout_toStartOf="@+id/ptB" />
-</RadioGroup>
+        android:layout_toStartOf="@+id/ptB"
+        android:layout_margin="1dp" />
 </RelativeLayout>
