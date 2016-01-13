@@ -63,12 +63,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 LatLng end = b.getPosition();
 
 
-             //   TextView txtStart = (TextView)findViewById(R.id.ptA);
-              //  txtStart.setText(start.latitude + "," + start.longitude);
+                TextView txtStart = (TextView)findViewById(R.id.ptA);
+               txtStart.setText(start.latitude + "," + start.longitude);
                 Toast.makeText(getApplicationContext(), "START: "+start.latitude + "," + start.longitude, Toast.LENGTH_SHORT).show();
 
-                //TextView txtEnd = (TextView)findViewById(R.id.ptB);
-               // txtEnd.setText(end.latitude + "," + end.longitude);
+             TextView txtEnd = (TextView)findViewById(R.id.ptB);
+             txtEnd.setText(end.latitude + "," + end.longitude);
                 Toast.makeText(getApplicationContext(), "END: "+end.latitude + "," + end.longitude, Toast.LENGTH_SHORT).show();
 
 

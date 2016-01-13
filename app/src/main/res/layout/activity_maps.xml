@@ -1,4 +1,6 @@
-
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
 <fragment
     android:name="com.google.android.gms.maps.MapFragment"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -23,3 +25,64 @@
 
     </android.support.v7.widget.Toolbar>
 </fragment>
+    <TextView
+        android:id="@+id/ptA"
+        android:layout_width="300dp"
+        android:layout_height="24dp"
+        android:text="Search Above"
+        android:textSize="18dp"
+        android:background="@android:color/darker_gray"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:id="@+id/ptB"
+        android:layout_width="300dp"
+        android:layout_height="24dp"
+        android:text="Search Above"
+        android:textSize="18dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/ptA"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+<RadioGroup
+    android:id="@+id/rgroup"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp">
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="START"
+        android:id="@+id/ra"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/ptA"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/ptA"
+        android:layout_toStartOf="@+id/ptA"
+        android:gravity="center_vertical|center|center_horizontal"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:drawable="@color/abc_background_cache_hint_selector_material_dark"
+        android:textColor="@android:color/white" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="END"
+        android:id="@+id/rb"
+        android:gravity="center_vertical|center|center_horizontal"
+        android:textSize="18dp"
+        android:layout_below="@+id/ptA"
+        android:layout_alignBottom="@+id/ptB"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:drawable="@color/abc_background_cache_hint_selector_material_dark"
+        android:textColor="@android:color/white"
+        android:layout_toLeftOf="@+id/ptB"
+        android:layout_toStartOf="@+id/ptB" />
+</RadioGroup>
+</RelativeLayout>
