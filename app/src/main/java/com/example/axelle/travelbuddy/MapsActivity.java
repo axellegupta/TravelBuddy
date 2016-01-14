@@ -3,6 +3,8 @@ package com.example.axelle.travelbuddy;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -38,7 +40,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //map.setMyLocationEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(22.2783, 114.1747), 16));
-
+        map.setMyLocationEnabled(true);
         // You can customize the marker image using images bundled with
         // your app, or dynamically generated bitmaps.
         final LatLng A = new LatLng(22.2783, 114.1747);
@@ -58,7 +60,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         final Button ra = (Button) findViewById(R.id.ra);
         ra.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-      //          a.setPosition();
             }
         });
 
@@ -100,9 +101,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
 
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);
+        searchView.setSubmitButtonEnabled(true);
+
         return super.onCreateOptionsMenu(menu);
     }
 }
