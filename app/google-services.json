@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_id": "travelbuddy-5c587",
+    "project_number": "429994263990",
+    "name": "travelbuddy"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429994263990:android:c38743fcb24627d9",
+        "client_id": "android:com.example.axelle.travelbuddy",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.example.axelle.travelbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "429994263990-jiekhp94dkr88s0qrj85forn5pq4bp4p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.axelle.travelbuddy",
+            "certificate_hash": "0CD13B3067666FB0C9761D5F6BC78E3EE060B9C9"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
