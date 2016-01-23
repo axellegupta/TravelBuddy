@@ -1,6 +1,7 @@
 package com.example.axelle.travelbuddy;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,19 +9,39 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 public class HomeView extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements
+//        GoogleApiClient.ConnectionCallbacks,
+//        GoogleApiClient.OnConnectionFailedListener,
+//        View.OnClickListener,
+        NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    public final static String EXTRA_MESSAGE = "com.example.axelle.travelbuddy.MESSAGE";
+
+    private static final String TAG = "SignInActivity";
+    private static final int RC_SIGN_IN = 9001;
+
+    private GoogleApiClient mGoogleApiClient;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -41,6 +62,39 @@ public class HomeView extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+//        // Button listener for Google Sign-In
+//        findViewById(R.id.sign_in_button).setOnClickListener(this);
+//
+//        // [START configure_signin]
+//        // Configure sign-in to request the user's ID, email address, and basic
+//        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build();
+//        // [END configure_signin]
+//
+//        // [START build_client]
+//        // Build a GoogleApiClient with access to the Google Sign-In API and the
+//        // options specified by gso.
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                .build();
+//        // [END build_client]
+//
+//        // [START customize_button]
+//        // Customize sign-in button. The sign-in button can be displayed in
+//        // multiple sizes and color schemes. It can also be contextually
+//        // rendered based on the requested scopes. For example. a red button may
+//        // be displayed when Google+ scopes are requested, but a white button
+//        // may be displayed when only basic profile is requested. Try adding the
+//        // Scopes.PLUS_LOGIN scope to the GoogleSignInOptions to see the
+//        // difference.
+//        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+//        signInButton.setSize(SignInButton.SIZE_STANDARD);
+//        signInButton.setScopes(gso.getScopeArray());
+//        //
     }
 
     @Override
@@ -68,7 +122,7 @@ public class HomeView extends AppCompatActivity
                         .commit();
                 break;
             case 3:
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, MapsActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -249,5 +303,74 @@ public class HomeView extends AppCompatActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+    public void openHomeView() {
+        Context context = getApplicationContext();
+        CharSequence text = "Hello toast!";
+        int duration = Toast.LENGTH_SHORT;
 
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+//        Intent intent = new Intent(this, HomeView.class);
+//        startActivity(intent);
+    }
+
+//    @Override
+//    public void onConnected(Bundle bundle) {
+//
+//    }
+//
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//
+//    }
+//
+//    @Override
+//    public void onConnectionFailed(ConnectionResult connectionResult) {
+//
+//    }
+//
+//    /**
+//     * Called when a view has been clicked.
+//     *
+//     * @param v The view that was clicked.
+//     */
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.sign_in_button:
+//                signIn();
+//                break;
+//            // ...
+//        }
+//    }
+
+//    private void signIn() {
+//        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+//        startActivityForResult(signInIntent, RC_SIGN_IN);
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+//        if (requestCode == RC_SIGN_IN) {
+//            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+//            handleSignInResult(result);
+//        }
+//    }
+//
+//    private void handleSignInResult(GoogleSignInResult result) {
+//        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+//        if (result.isSuccess()) {
+//            // Signed in successfully, show authenticated UI.
+//            GoogleSignInAccount acct = result.getSignInAccount();
+//            openHomeView();
+////            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+////            updateUI(true);
+//        } else {
+////            // Signed out, show unauthenticated UI.
+////            updateUI(false);
+//        }
+//    }
 }

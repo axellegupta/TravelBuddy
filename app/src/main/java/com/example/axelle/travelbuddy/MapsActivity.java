@@ -2,6 +2,8 @@ package com.example.axelle.travelbuddy;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -83,14 +89,45 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 LatLng start = a.getPosition();
                 LatLng end = b.getPosition();
 
-                TextView txtStart = (TextView)findViewById(R.id.ptA);
-                txtStart.setText(start.latitude + "," + start.longitude);
-                Toast.makeText(getApplicationContext(), "START: "+start.latitude + "," + start.longitude, Toast.LENGTH_SHORT).show();
+                Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
 
-             TextView txtEnd = (TextView)findViewById(R.id.ptB);
-             txtEnd.setText(end.latitude + "," + end.longitude);
-                Toast.makeText(getApplicationContext(), "END: "+end.latitude + "," + end.longitude, Toast.LENGTH_SHORT).show();
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(start.latitude, start.longitude, 1);
+                    if (addresses.size() > 0) {
+                        String display = "";
 
+                        for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
+                            display += addresses.get(0).getAddressLine(i) + ", ";
+                        }
+
+                        TextView txtStart = (TextView)findViewById(R.id.ptA);
+                        txtStart.setText(display);
+                        Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
+                    }
+                } catch(IOException e) {
+                    e.printStackTrace();
+                } finally {
+
+                }
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(end.latitude, end.longitude, 1);
+                    if (addresses.size() > 0) {
+                        String display = "";
+
+                        for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
+                            display += addresses.get(0).getAddressLine(i) + ", ";
+                        }
+
+                        TextView txtStart = (TextView)findViewById(R.id.ptB);
+                        txtStart.setText(display);
+                        Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
+                    }
+                } catch(IOException e) {
+                    e.printStackTrace();
+                } finally {
+
+                }
 
             }
 
