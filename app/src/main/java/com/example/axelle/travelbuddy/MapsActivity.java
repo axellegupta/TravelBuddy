@@ -1,25 +1,33 @@
 package com.example.axelle.travelbuddy;
 
-import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.*;
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
-import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
@@ -81,14 +89,45 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 LatLng start = a.getPosition();
                 LatLng end = b.getPosition();
 
-                TextView txtStart = (TextView)findViewById(R.id.ptA);
-                txtStart.setText(start.latitude + "," + start.longitude);
-                Toast.makeText(getApplicationContext(), "START: "+start.latitude + "," + start.longitude, Toast.LENGTH_SHORT).show();
+                Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
 
-             TextView txtEnd = (TextView)findViewById(R.id.ptB);
-             txtEnd.setText(end.latitude + "," + end.longitude);
-                Toast.makeText(getApplicationContext(), "END: "+end.latitude + "," + end.longitude, Toast.LENGTH_SHORT).show();
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(start.latitude, start.longitude, 1);
+                    if (addresses.size() > 0) {
+                        String display = "";
 
+                        for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
+                            display += addresses.get(0).getAddressLine(i) + ", ";
+                        }
+
+                        TextView txtStart = (TextView)findViewById(R.id.ptA);
+                        txtStart.setText(display);
+                        Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
+                    }
+                } catch(IOException e) {
+                    e.printStackTrace();
+                } finally {
+
+                }
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(end.latitude, end.longitude, 1);
+                    if (addresses.size() > 0) {
+                        String display = "";
+
+                        for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
+                            display += addresses.get(0).getAddressLine(i) + ", ";
+                        }
+
+                        TextView txtStart = (TextView)findViewById(R.id.ptB);
+                        txtStart.setText(display);
+                        Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
+                    }
+                } catch(IOException e) {
+                    e.printStackTrace();
+                } finally {
+
+                }
 
             }
 
