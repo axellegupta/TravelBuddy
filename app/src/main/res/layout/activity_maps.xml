@@ -12,21 +12,9 @@
     tools:context="com.example.axelle.travelbuddy.MapsActivity"
     tools:layout="@layout/abc_action_bar_title_item"
     android:layout_below="@+id/ptB"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true">
+    android:layout_above="@+id/place_attribution">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-    </android.support.v7.widget.Toolbar>
 </fragment>
     <TextView
         android:id="@+id/ptA"
@@ -58,7 +46,6 @@
         android:text="Set Start Poin"
         android:id="@+id/ra"
         android:layout_alignParentTop="true"
-        android:layout_alignBottom="@+id/ptA"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/ptA"
@@ -68,7 +55,10 @@
         android:textStyle="bold"
         android:drawable="@color/abc_background_cache_hint_selector_material_dark"
         android:textColor="@android:color/white"
-        android:layout_margin="1dp" />
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_above="@+id/rb" />
 
     <Button
         android:layout_width="match_parent"
@@ -78,14 +68,34 @@
         android:id="@+id/rb"
         android:gravity="center_vertical|center|center_horizontal"
         android:textSize="18dp"
-        android:layout_below="@+id/ptA"
-        android:layout_alignBottom="@+id/ptB"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:textStyle="bold"
         android:drawable="@color/abc_background_cache_hint_selector_material_dark"
         android:textColor="@android:color/white"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/ptB"
         android:layout_toStartOf="@+id/ptB"
-        android:layout_margin="1dp" />
+        android:layout_above="@+id/map"
+        android:layout_below="@+id/ptA" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/place_attribution"
+        android:layout_alignRight="@+id/ptB"
+        android:layout_alignEnd="@+id/ptB"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/place_details"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

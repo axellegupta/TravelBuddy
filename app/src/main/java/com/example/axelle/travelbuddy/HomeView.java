@@ -122,7 +122,7 @@ public class HomeView extends AppCompatActivity
                         .commit();
                 break;
             case 3:
-                Intent intent = new Intent(this, MapsActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -227,7 +227,7 @@ public class HomeView extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-                View rootView = inflater.inflate(R.layout.fragment_home_view, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_home_view, container, false);
             return rootView;
 
         }
@@ -275,7 +275,7 @@ public class HomeView extends AppCompatActivity
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public static NewBooking newInstance(int sectionNumber) {
-           NewBooking fragment = new NewBooking();
+            NewBooking fragment = new NewBooking();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
