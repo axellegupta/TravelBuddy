@@ -221,9 +221,10 @@ public class MainActivity extends AppCompatActivity implements
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            findViewById(R.id.welcome).setVisibility(View.VISIBLE);
         } else {
             mStatusTextView.setText(R.string.signed_out);
-
+            findViewById(R.id.welcome).setVisibility(View.GONE);
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
@@ -234,8 +235,6 @@ public class MainActivity extends AppCompatActivity implements
         switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
-                Intent intent = new Intent(getApplicationContext(), HomeView.class);
-                startActivity(intent);
                 break;
             case R.id.sign_out_button:
                 signOut();
@@ -244,5 +243,10 @@ public class MainActivity extends AppCompatActivity implements
                 revokeAccess();
                 break;
         }
+    }
+    public void openHome(View view) {
+        Intent intent;
+        intent = new Intent(getApplicationContext(), HomeView.class);
+        startActivity(intent);
     }
 }

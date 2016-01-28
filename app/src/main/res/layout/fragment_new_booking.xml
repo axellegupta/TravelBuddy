@@ -4,13 +4,12 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:text="Name"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/userName"
         android:layout_gravity="center_horizontal|top"
         android:textSize="24dp"
         android:textStyle="bold"
