@@ -1,101 +1,105 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent">
-<fragment
-    android:name="com.google.android.gms.maps.MapFragment"
-    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/map"
-    tools:context="com.example.axelle.travelbuddy.MapsActivity"
-    tools:layout="@layout/abc_action_bar_title_item"
-    android:layout_below="@+id/ptB"
-    android:layout_above="@+id/place_attribution">
 
-
-</fragment>
-    <TextView
-        android:id="@+id/ptA"
-        android:layout_width="300dp"
-        android:layout_height="24dp"
-        android:text="Search Above"
-        android:textSize="18dp"
-        android:background="@android:color/darker_gray"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="1dp" />
-    <TextView
-        android:id="@+id/ptB"
-        android:layout_width="300dp"
-        android:layout_height="24dp"
-        android:text="Search Above"
-        android:textSize="18dp"
-        android:background="@android:color/darker_gray"
-        android:layout_below="@+id/ptA"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="1dp" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Set Start Poin"
-        android:id="@+id/ra"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/ptA"
-        android:layout_toStartOf="@+id/ptA"
-        android:gravity="center_vertical|center|center_horizontal"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:drawable="@color/abc_background_cache_hint_selector_material_dark"
-        android:textColor="@android:color/white"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_above="@+id/rb" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Set End Point"
-        android:id="@+id/rb"
-        android:gravity="center_vertical|center|center_horizontal"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:drawable="@color/abc_background_cache_hint_selector_material_dark"
-        android:textColor="@android:color/white"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/ptB"
-        android:layout_toStartOf="@+id/ptB"
-        android:layout_above="@+id/map"
-        android:layout_below="@+id/ptA" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/place_attribution"
-        android:layout_alignRight="@+id/ptB"
-        android:layout_alignEnd="@+id/ptB"
-        android:layout_alignParentBottom="true" />
+        android:orientation="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout2">
 
-    <TextView
+        <RadioGroup
+            android:id="@+id/rbgroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/ra"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_above="@+id/rb"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_toLeftOf="@+id/ptA"
+                android:layout_toStartOf="@+id/ptA"
+                android:drawable="@color/abc_background_cache_hint_selector_material_dark"
+                android:gravity="center_vertical|center|center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/white"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:checked="false" />
+
+            <RadioButton
+                android:id="@+id/rb"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_above="@+id/map"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ptA"
+                android:layout_toLeftOf="@+id/ptB"
+                android:layout_toStartOf="@+id/ptB"
+                android:drawable="@color/abc_background_cache_hint_selector_material_dark"
+                android:gravity="center_vertical|center|center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/white"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:checked="false" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/place_details"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayout"
+        android:layout_toRightOf="@+id/linearLayout2"
+        android:layout_toEndOf="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/ptA"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="1dp"
+            android:background="@android:color/darker_gray"
+            android:text="select start location"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/ptB"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ptA"
+            android:layout_margin="1dp"
+            android:background="@android:color/darker_gray"
+            android:text="select end location"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:context="com.example.axelle.travelbuddy.MapsActivity"
+        tools:layout="@layout/abc_action_bar_title_item"
+        android:layout_below="@+id/linearLayout2" />
 
 </RelativeLayout>

@@ -22,6 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -47,6 +50,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+
+    private static final String TAG = "MapsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,96 +87,134 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .title("END")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
-        final Button ra = (Button) findViewById(R.id.ra);
-        ra.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        final RadioGroup fromToGroup = (RadioGroup) findViewById(R.id.rbgroup);
+        fromToGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup fromToGroup, int checkedId) {
+                Toast.makeText(getApplicationContext(), "chk id: " + checkedId, Toast.LENGTH_SHORT).show();
+
+                if (checkedId == R.id.ra) {
+                    a.setPosition(new LatLng(22.3317272, 114.1600567)); // Shek Kip Mei MTR
+                }
+                else if (checkedId == R.id.rb) {
+                    b.setPosition(new LatLng(22.3117281, 114.2147889)); // Kowloon Bay MTR
+                }
+
             }
+
         });
 
-        final Button rb = (Button) findViewById(R.id.rb);
-        rb.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-       //         b.setPosition();
+
+        map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+
+            @Override
+            public void onMarkerDragStart(Marker M0) {
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker M0) {
+                LatLng start = a.getPosition();
+                LatLng end = b.getPosition();
+
+                Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(start.latitude, start.longitude, 1);
+                    if (addresses.size() > 0) {
+                        String display = "";
+
+                        for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
+                            display += addresses.get(0).getAddressLine(i) + ", ";
+                        }
+
+                        TextView txtStart = (TextView) findViewById(R.id.ptA);
+                        txtStart.setText(display);
+                        Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+
+                }
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(end.latitude, end.longitude, 1);
+                    if (addresses.size() > 0) {
+                        String display = "";
+
+                        for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
+                            display += addresses.get(0).getAddressLine(i) + ", ";
+                        }
+
+                        TextView txtStart = (TextView) findViewById(R.id.ptB);
+                        txtStart.setText(display);
+                        Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+
+                }
 
             }
+
+            @Override
+            public void onMarkerDrag(Marker M0) {
+            }
+
         });
-
-       map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-
-           @Override
-           public void onMarkerDragStart(Marker M0) {
-           }
-
-           @Override
-           public void onMarkerDragEnd(Marker M0) {
-               LatLng start = a.getPosition();
-               LatLng end = b.getPosition();
-
-               Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
-
-               try {
-                   List<Address> addresses = geocoder.getFromLocation(start.latitude, start.longitude, 1);
-                   if (addresses.size() > 0) {
-                       String display = "";
-
-                       for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
-                           display += addresses.get(0).getAddressLine(i) + ", ";
-                       }
-
-                       TextView txtStart = (TextView) findViewById(R.id.ptA);
-                       txtStart.setText(display);
-                       Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
-                   }
-               } catch (IOException e) {
-                   e.printStackTrace();
-               } finally {
-
-               }
-
-               try {
-                   List<Address> addresses = geocoder.getFromLocation(end.latitude, end.longitude, 1);
-                   if (addresses.size() > 0) {
-                       String display = "";
-
-                       for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
-                           display += addresses.get(0).getAddressLine(i) + ", ";
-                       }
-
-                       TextView txtStart = (TextView) findViewById(R.id.ptB);
-                       txtStart.setText(display);
-                       Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
-                   }
-               } catch (IOException e) {
-                   e.printStackTrace();
-               } finally {
-
-               }
-
-           }
-
-           @Override
-           public void onMarkerDrag(Marker M0) {
-           }
-
-       });
 
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView =
-                (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false);
-        searchView.setSubmitButtonEnabled(true);
-
-
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
+        if (id == R.id.action_search) {
+            findPlace();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void findPlace() {
+        try {
+            AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
+                    .build();
+
+            Intent intent =
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                            .setFilter(typeFilter)
+                            .build(this);
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            // TODO: Handle the error.
+        } catch (GooglePlayServicesNotAvailableException e) {
+            // TODO: Handle the error.
+        }
+    }
+
+    // A place has been received; use requestCode to track the request.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(this, data);
+                Log.i(TAG, "Place: " + place.getName());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(this, data);
+                Log.i(TAG, status.getStatusMessage());
+                // TODO: Handle the error.
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+    }
 }
