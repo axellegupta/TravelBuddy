@@ -1,33 +1,14 @@
 package com.example.axelle.travelbuddy;
 
-import android.Manifest;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.text.Html;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
@@ -63,48 +44,84 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
 
-           }
     @Override
-    public void onMapReady(GoogleMap map) {
+    public void onMapReady(final GoogleMap map) {
         // LatLng hk = new LatLng(22.2783, 114.1747);
 
         //map.setMyLocationEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(22.2783, 114.1747), 16));
 
-        final LatLng A = new LatLng(22.2783, 114.1747);
-        final Marker a = map.addMarker(new MarkerOptions()
-                .position(A)
+        final LatLng defaultLocationA = new LatLng(22.2783, 114.1747);
+        final Marker markerA = map.addMarker(new MarkerOptions()
+                .position(defaultLocationA)
                 .draggable(true)
                 .title("START")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-        final LatLng B = new LatLng(22.2780, 114.1740);
-        final Marker b = map.addMarker(new MarkerOptions()
-                .position(B)
+        final LatLng defaultLocationB = new LatLng(22.2780, 114.1740);
+        final Marker markerB = map.addMarker(new MarkerOptions()
+                .position(defaultLocationB)
                 .draggable(true)
                 .title("END")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
-        final RadioGroup fromToGroup = (RadioGroup) findViewById(R.id.rbgroup);
-        fromToGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        final PlaceAutocompleteFragment startAutocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.start_location);
+        final PlaceAutocompleteFragment endAutocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.end_location);
 
+        startAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onCheckedChanged(RadioGroup fromToGroup, int checkedId) {
-                Toast.makeText(getApplicationContext(), "chk id: " + checkedId, Toast.LENGTH_SHORT).show();
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName());
 
-                if (checkedId == R.id.ra) {
-                    a.setPosition(new LatLng(22.3317272, 114.1600567)); // Shek Kip Mei MTR
-                }
-                else if (checkedId == R.id.rb) {
-                    b.setPosition(new LatLng(22.3117281, 114.2147889)); // Kowloon Bay MTR
-                }
+                String placeDetailsStr = place.getName() + "\n"
+                        + place.getId() + "\n"
+                        + place.getLatLng().toString() + "\n"
+                        + place.getAddress() + "\n"
+                        + place.getAttributions();
+//                txtPlaceDetails.setText(placeDetailsStr);
 
+                markerA.setPosition(place.getLatLng());
+
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 16));
             }
 
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
         });
 
+        endAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName());
+
+                String placeDetailsStr = place.getName() + "\n"
+                        + place.getId() + "\n"
+                        + place.getLatLng().toString() + "\n"
+                        + place.getAddress() + "\n"
+                        + place.getAttributions();
+//                txtPlaceDetails.setText(placeDetailsStr);
+
+                markerB.setPosition(place.getLatLng());
+
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 16));
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
 
         map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
 
@@ -114,8 +131,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onMarkerDragEnd(Marker M0) {
-                LatLng start = a.getPosition();
-                LatLng end = b.getPosition();
+                LatLng start = markerA.getPosition();
+                LatLng end = markerB.getPosition();
 
                 Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
 
@@ -128,9 +145,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             display += addresses.get(0).getAddressLine(i) + ", ";
                         }
 
-                        TextView txtStart = (TextView) findViewById(R.id.ptA);
-                        txtStart.setText(display);
                         Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
+
+                        startAutocompleteFragment.setText(display);
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -147,9 +165,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             display += addresses.get(0).getAddressLine(i) + ", ";
                         }
 
-                        TextView txtStart = (TextView) findViewById(R.id.ptB);
-                        txtStart.setText(display);
                         Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
+
+                        endAutocompleteFragment.setText(display);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -165,22 +183,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         });
 
-    }
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options_menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
+//        TextView txt = (TextView) findViewById(R.id.start);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+    public void onClick(View view) {
 
-        if (id == R.id.action_search) {
-            findPlace();
-        }
-
-        return super.onOptionsItemSelected(item);
+//        switch(view.getId()) {
+//            case R.id.b1:
+//                findPlace();
+//                break;
+//
+//            case R.id.b2:
+//                findPlace();
+//                break;
+//        }
     }
 
     public void findPlace() {
@@ -208,6 +224,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 Log.i(TAG, "Place: " + place.getName());
+
+//                TextView txt = (TextView) findViewById(R.id.start);
+//                txt.setText(place.getAddress());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
                 Log.i(TAG, status.getStatusMessage());
@@ -217,4 +236,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
+
+//    PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+//            getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+//
+//    autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//        @Override
+//        public void onPlaceSelected(Place place) {
+//            // TODO: Get info about the selected place.
+//            Log.i(TAG, "Place: " + place.getName());
+//
+//            String placeDetailsStr = place.getName() + "\n"
+//                    + place.getId() + "\n"
+//                    + place.getLatLng().toString() + "\n"
+//                    + place.getAddress() + "\n"
+//                    + place.getAttributions();
+//            txtPlaceDetails.setText(placeDetailsStr);
+//        }
+//
+//        @Override
+//        public void onError(Status status) {
+//            // TODO: Handle the error.
+//            Log.i(TAG, "An error occurred: " + status);
+//        }
+//    });
 }

@@ -1,8 +1,12 @@
 package com.example.axelle.travelbuddy;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,15 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class HomeView extends AppCompatActivity
         implements
@@ -43,10 +46,14 @@ public class HomeView extends AppCompatActivity
 
     private GoogleApiClient mGoogleApiClient;
 
+    public static final String PREFS_NAME = "GlobalSettings";
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+    private String personPhotoUriString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,10 +278,10 @@ public class HomeView extends AppCompatActivity
     }
 
 
-    public static class NewBooking extends Fragment {
+    private class NewBooking extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public static NewBooking newInstance(int sectionNumber) {
+        public NewBooking newInstance(int sectionNumber) {
             NewBooking fragment = new NewBooking();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -291,16 +298,65 @@ public class HomeView extends AppCompatActivity
 
             View rootView = inflater.inflate(R.layout.fragment_new_booking, container, false);
             return rootView;
-
         }
-
-
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
             ((HomeView) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+            String personName = settings.getString("personName", "WTF");
+            personPhotoUriString = settings.getString("personPhoto", "");
+            TextView txt = (TextView) findViewById(R.id.userName);
+            txt.setText(personName);
+        }
+
+        private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+
+            /**
+             * Override this method to perform a computation on a background thread. The
+             * specified parameters are the parameters passed to {@link #execute}
+             * by the caller of this task.
+             * <p/>
+             * This method can call {@link #publishProgress} to publish updates
+             * on the UI thread.
+             *
+             * @param params The parameters of the task.
+             * @return A result, defined by the subclass of this task.
+             * @see #onPreExecute()
+             * @see #onPostExecute
+             * @see #publishProgress
+             */
+            @Override
+            protected Bitmap doInBackground(String... params) {
+                try {
+                    URL url = new URL(personPhotoUriString);
+                    Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    return bmp;
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                super.onPostExecute(bitmap);
+
+                ImageView photo = (ImageView) findViewById(R.id.displayPhoto);
+                photo.setImageBitmap(bitmap);
+
+                Log.i("WAT", "PROFILE IMAGE WAS DOWNLOADED AND SET");
+            }
         }
     }
 }

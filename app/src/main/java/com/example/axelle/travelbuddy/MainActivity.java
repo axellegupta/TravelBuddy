@@ -1,36 +1,9 @@
 package com.example.axelle.travelbuddy;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -63,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements
     private TextView mStatusTextView;
 
     private ProgressDialog mProgressDialog;
+
+    public static final String PREFS_NAME = "GlobalSettings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +125,15 @@ public class MainActivity extends AppCompatActivity implements
             String personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
             TextView username = (TextView)findViewById(R.id.userName);
+
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("personName", personName);
+            editor.putString("personEmail", personEmail);
+            editor.putString("personId", personId);
+            editor.putString("personPhoto", personPhoto.toString());
+
+            editor.commit();
         }
     }
     // [END onActivityResult]
