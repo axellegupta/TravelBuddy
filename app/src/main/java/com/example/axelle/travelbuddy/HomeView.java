@@ -278,7 +278,7 @@ public class HomeView extends AppCompatActivity
     }
 
 
-    private class NewBooking extends Fragment {
+     class NewBooking extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public NewBooking newInstance(int sectionNumber) {

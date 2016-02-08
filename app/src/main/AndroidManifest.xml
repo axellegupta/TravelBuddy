@@ -23,6 +23,11 @@
             android:label="@string/title_activity_home_view" >
 
         </activity>
+        <activity
+            android:name=".JourneyLaterActivity"
+            android:label="@string/title_activity_journey_later" >
+
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

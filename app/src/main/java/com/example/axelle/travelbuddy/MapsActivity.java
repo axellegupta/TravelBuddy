@@ -237,6 +237,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    public void journeyLater(View view) {
+        Intent intent = new Intent(getApplicationContext(), JourneyLaterActivity.class);
+
+        startActivity(intent);
+    }
+
 //    PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
 //            getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 //
