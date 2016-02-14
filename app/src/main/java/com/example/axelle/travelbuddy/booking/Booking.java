@@ -1,11 +1,10 @@
-package com.example.axelle.travelbuddy.question;
+package com.example.axelle.travelbuddy.booking;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
-/**
- * Created by hunkim on 7/16/15.
- */
-public class Question implements Comparable<Question> {
+public class Booking implements Comparable<Booking> {
 
     /**
      * Must be synced with firebase JSON structure
@@ -14,9 +13,6 @@ public class Question implements Comparable<Question> {
     private String key;
     private String id;
     private String wholeMsg;
-    //  private String headLastChar;
-    //  private String desc;
-    //   private String linkedDesc;
     private boolean completed;
     private long timestamp;
     private String tags;
@@ -25,36 +21,24 @@ public class Question implements Comparable<Question> {
     private boolean newQuestion;
     private int reports;
 
-    private postedBy postedBy;
-    private String category;
     private String text;
-    public reply[] replies;
     private int value=0;
-    private boolean isReply;
-    private boolean newreply;
 
-    public boolean isNewreply(){
-        return newreply;
-    }
+    private int calendarYear;
+    private int calendarMonth;
+    private int calendarDay;
+    private String time;
+    private String from;
+    private String to;
+
     public String getId() {
         return id;
     }
     public String getText() {
         return text;
     }
-    public postedBy getPostedBy() {
-        return postedBy;
-    }
     public int getReports() {
         return reports;
-    }
-
-    public String getSpinner() {
-        return category;
-    }
-
-    public void setSpinner(String a) {
-        this.category = a;
     }
 
    public String getDateString() {
@@ -71,7 +55,7 @@ public class Question implements Comparable<Question> {
 
     // Required default constructor for Firebase object mapping
     @SuppressWarnings("unused")
-    private Question() {
+    private Booking() {
     }
 
     /**
@@ -79,18 +63,21 @@ public class Question implements Comparable<Question> {
      *
      * @param message string message
      */
-    public Question(String message) {
+    public Booking(String message, int year, int month, int day, String time) {
         this.wholeMsg = message;
         this.echo = 0;
-        this.category ="general";
         this.reports = 0;
         this.timestamp = new Date().getTime();
+        this.calendarYear = year;
+        this.calendarMonth = month;
+        this.calendarDay = day;
+        this.time = time;
+
     }
 
-    public Question(String message, int key) {
+    public Booking(String message, int key) {
         this.wholeMsg = message;
         this.echo = 0;
-        this.category = "general";
         this.reports = 0;
         this.timestamp = new Date().getTime();
 
@@ -107,9 +94,6 @@ public class Question implements Comparable<Question> {
         return wholeMsg;
     }
 
-    // public String getHeadLastChar() {        return headLastChar;    }
-
-    //   public String getLinkedDesc() {        return linkedDesc;     }
 
     public boolean isCompleted() {
         return completed;
@@ -143,6 +127,18 @@ public class Question implements Comparable<Question> {
         this.key = key;
     }
 
+    public int getCalendarYear() { return this.calendarYear;}
+
+    public int getCalendarMonth() { return this.calendarMonth; }
+
+    public int getCalendarDay() { return this.calendarDay; }
+
+    public String getTime() { return this.time; }
+
+    public String getFrom() { return this.from; }
+
+    public String getTo() { return this.to; }
+
     /**
      * New one/high echo goes bottom
      *
@@ -150,7 +146,7 @@ public class Question implements Comparable<Question> {
      * @return order
      */
     @Override
-    public int compareTo(Question other) {
+    public int compareTo(Booking other) {
         // Push new on top
         other.updateNewQuestion(); // update NEW button
         this.updateNewQuestion();
@@ -172,10 +168,10 @@ public class Question implements Comparable<Question> {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Question)) {
+        if (!(o instanceof Booking)) {
             return false;
         }
-        Question other = (Question) o;
+        Booking other = (Booking) o;
         return key.equals(other.key);
     }
 

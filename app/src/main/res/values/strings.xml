@@ -68,5 +68,20 @@
     <string name="server_client_id">YOUR_SERVER_CLIENT_ID</string>
     <string name="title_activity_journey_later">Journey Later</string>
 
-
+    <string name="error_invalid_room_name">Use only alphanumeric characters</string>
+    <string name="error_field_required">This field is required</string>
+    <string-array name="sortArray">
+        <item>~Sort Questions~</item>
+        <item>Newest-Oldest</item>
+        <item>Popularity</item>
+    </string-array>
+    <string-array name="catArray">
+        <item>~All Categories~</item>
+        <item>general</item>
+        <item>midterm</item>
+        <item>final</item>
+        <item>project</item>
+        <item>lab</item>
+        <item>tutorial</item>
+    </string-array>
 </resources>

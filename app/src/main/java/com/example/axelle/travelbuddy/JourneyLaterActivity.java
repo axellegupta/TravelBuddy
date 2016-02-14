@@ -3,8 +3,6 @@ package com.example.axelle.travelbuddy;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CalendarView;
@@ -25,8 +23,8 @@ public class JourneyLaterActivity extends AppCompatActivity {
     private int calendarMonth = 1;
     private int calendarDay = 4;
     private String time = "5:30";
-    private LatLng from = new LatLng(120, 112.1);
-    private LatLng to = new LatLng(112.3, -120);
+    private String from="from";
+    private String to="to";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +33,11 @@ public class JourneyLaterActivity extends AppCompatActivity {
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
-        String alpha = settings.getString("alpha", "PLACE NOT FOUND");
-        String beta = settings.getString("beta", "PLACE NOT FOUND");
+        from = settings.getString("alpha", "PLACE NOT FOUND");
+        to = settings.getString("beta", "PLACE NOT FOUND");
 
         TextView txt = (TextView) findViewById(R.id.journey_details);
-        txt.setText("You will be travelling from " + alpha + " to " + beta + ".\nConfirm?");
+        txt.setText("You will be travelling from \n" + from + "\n to \n" + to);
 
         CalendarView calendar = (CalendarView) findViewById(R.id.calendar);
 
@@ -51,15 +49,6 @@ public class JourneyLaterActivity extends AppCompatActivity {
                 calendarYear = year;
             }
         });
-
-        final EditText inputTime = (EditText) findViewById(R.id.inputTime);
-        inputTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Toast.makeText(getApplicationContext(), inputTime.getText(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
     @Override
@@ -68,9 +57,22 @@ public class JourneyLaterActivity extends AppCompatActivity {
     }
 
     public void addEvent(View view) {
-        Intent intent = new Intent(getApplicationContext(), HomeView.class);
-        intent.putExtra("position", 1);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+        EditText inputTime = (EditText) findViewById(R.id.inputTime);
+        time = inputTime.getText().toString();
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        from = settings.getString("alpha", "PLACE NOT FOUND");
+        to = settings.getString("beta", "PLACE NOT FOUND");
+
+        intent.putExtra("calendarYear", calendarYear);
+        intent.putExtra("calendarMonth", calendarMonth);
+        intent.putExtra("calendarDay", calendarDay);
+        intent.putExtra("time", time);
+        intent.putExtra("from", from);
+        intent.putExtra("to", to);
 
         startActivity(intent);
+
     }
 }

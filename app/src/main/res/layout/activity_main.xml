@@ -1,125 +1,57 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#1f4fff"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".PrimaryActivity">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView2"
+
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:fontFamily="@android:string/status_bar_notification_info_overflow"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/background_floating_material_light"
-        android:textSize="48dp"
-        android:textStyle="bold|italic" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/welcomeText"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="28dp"
-        android:foregroundGravity="center_vertical|center|center_horizontal" />
+        android:layout_height="40dp"
+        android:transcriptMode="alwaysScroll"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/close" />
 
     <Button
-        android:id="@+id/welcome"
+        android:id="@+id/close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/sign_out_and_disconnect"
-        android:layout_centerHorizontal="true"
-        android:foregroundGravity="center_vertical|center|center_horizontal"
-        android:onClick="openHome"
-        android:text="Click To Proceed" />
-    <!--Removed because it was causing an InflateException-->
-    <!--android:elevation="@android:dimen/dialog_min_width_major"-->
-
-    <LinearLayout
-        android:id="@+id/sign_out_and_disconnect"
-        android:layout_width="274dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:gravity="clip_horizontal|center|clip_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-
-        <Button
-            android:id="@+id/disconnect_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView2"
-            android:layout_alignStart="@+id/textView2"
-            android:layout_below="@+id/sign_in_button"
-            android:foregroundGravity="center_vertical|center|center_horizontal"
-            android:gravity="center"
-            android:text="Disconnect"
-            android:textStyle="normal" />
-
-        <Button
-            android:id="@+id/sign_out_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/sign_out_and_disconnect"
-            android:layout_alignRight="@+id/sign_out_and_disconnect"
-            android:layout_below="@+id/disconnect_button"
-            android:foregroundGravity="center_vertical|center|center_horizontal"
-            android:gravity="center"
-            android:text="SignOut"
-            android:textStyle="normal" />
-
-    </LinearLayout>
+        android:onClick="Close"
+        android:text = "RETURN"
+        android:textColor="#e8f6ff"
+        android:layout_marginLeft="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+        android:layout_marginRight="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="0dp"
+        android:padding="5dp"
+        android:allowUndo="true"
+        android:textStyle="bold"
+        android:elevation="30dp"
+        android:background="#283e85" />
 
     <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="All BOOKINGS"
+        android:id="@+id/welcome"
+        android:textColor="@android:color/white"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:singleLine="false"
+        android:padding="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+        android:textIsSelectable="true"
+        android:textStyle="bold"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:theme="@style/RtlOverlay.Widget.AppCompat.ActionBar.TitleItem"
+        android:elevation="50dp"
+        android:background="@android:color/holo_blue_dark"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/close"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="40dp"
-        android:gravity="clip_horizontal|center|clip_vertical"
-        android:text="This App will help you find and connect with people nearby who wish to embark upon a similar route. So login now and split fare and save money&apos;"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#e3e3ff"
-        android:textSize="20dp"
-        android:textStyle="italic" />
-
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_vertical|center|center_horizontal"
-        android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#050506"
-        android:textSize="18dp"
-        android:textStyle="bold|italic" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/status"
-        android:layout_centerHorizontal="true"
-        android:padding="20dp"
-        android:src="@drawable/logo" />
+        android:layout_above="@android:id/list" />
 
 </RelativeLayout>

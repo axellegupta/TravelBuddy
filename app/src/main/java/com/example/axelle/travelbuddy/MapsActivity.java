@@ -8,15 +8,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,6 +35,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public static final String PREFS_NAME = "GlobalSettings";
 
+    private String from = "";
+    private String to = "";
+
+    private Marker markerA;
+    private Marker markerB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,14 +60,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 new LatLng(22.2783, 114.1747), 16));
 
         final LatLng defaultLocationA = new LatLng(22.2783, 114.1747);
-        final Marker markerA = map.addMarker(new MarkerOptions()
+        markerA = map.addMarker(new MarkerOptions()
                 .position(defaultLocationA)
                 .draggable(true)
                 .title("START")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
         final LatLng defaultLocationB = new LatLng(22.2780, 114.1740);
-        final Marker markerB = map.addMarker(new MarkerOptions()
+        markerB = map.addMarker(new MarkerOptions()
                 .position(defaultLocationB)
                 .draggable(true)
                 .title("END")
@@ -129,8 +130,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("alpha", "I AM ALPHA");
-        editor.putString("beta", "I AM BETA");
+        editor.putString("alpha", markerA.getPosition().toString());
+        editor.putString("beta", markerB.getPosition().toString());
 
         CharSequence place = "PLACE";
 
@@ -203,6 +204,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void journeyLater(View view) {
         Intent intent = new Intent(getApplicationContext(), JourneyLaterActivity.class);
+
+        intent.putExtra("from", markerA.getPosition().toString());
+        intent.putExtra("to", markerB.getPosition().toString());
 
         startActivity(intent);
     }
