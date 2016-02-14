@@ -1,12 +1,14 @@
 package com.example.axelle.travelbuddy;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -35,6 +37,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     private static final String TAG = "MapsActivity";
+
+    public static final String PREFS_NAME = "GlobalSettings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +127,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("alpha", "I AM ALPHA");
+        editor.putString("beta", "I AM BETA");
+
+        CharSequence place = "PLACE";
+
+        Toast.makeText(getApplicationContext(), place, Toast.LENGTH_SHORT).show();
+
+        editor.commit();
+
         map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
 
             @Override
@@ -184,57 +199,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 //        TextView txt = (TextView) findViewById(R.id.start);
-    }
-
-    public void onClick(View view) {
-
-//        switch(view.getId()) {
-//            case R.id.b1:
-//                findPlace();
-//                break;
-//
-//            case R.id.b2:
-//                findPlace();
-//                break;
-//        }
-    }
-
-    public void findPlace() {
-        try {
-            AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
-                    .build();
-
-            Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-                            .setFilter(typeFilter)
-                            .build(this);
-            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-        } catch (GooglePlayServicesRepairableException e) {
-            // TODO: Handle the error.
-        } catch (GooglePlayServicesNotAvailableException e) {
-            // TODO: Handle the error.
-        }
-    }
-
-    // A place has been received; use requestCode to track the request.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlaceAutocomplete.getPlace(this, data);
-                Log.i(TAG, "Place: " + place.getName());
-
-//                TextView txt = (TextView) findViewById(R.id.start);
-//                txt.setText(place.getAddress());
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(this, data);
-                Log.i(TAG, status.getStatusMessage());
-                // TODO: Handle the error.
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-        }
     }
 
     public void journeyLater(View view) {

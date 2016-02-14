@@ -1,248 +1,549 @@
-package com.example.axelle.travelbuddy;
-
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-
-/**
- * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
- * profile.
- */
-public class MainActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener {
-
-    private static final String TAG = "SignInActivity";
-    private static final int RC_SIGN_IN = 9001;
-
-    private GoogleApiClient mGoogleApiClient;
-    private TextView mStatusTextView;
-
-    private ProgressDialog mProgressDialog;
-
-    public static final String PREFS_NAME = "GlobalSettings";
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Views
-        mStatusTextView = (TextView) findViewById(R.id.status);
-
-        // Button listeners
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
-
-        // [START configure_signin]
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        // [END configure_signin]
-
-        // [START build_client]
-        // Build a GoogleApiClient with access to the Google Sign-In API and the
-        // options specified by gso.
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-        // [END build_client]
-
-        // [START customize_button]
-        // Customize sign-in button. The sign-in button can be displayed in
-        // multiple sizes and color schemes. It can also be contextually
-        // rendered based on the requested scopes. For example. a red button may
-        // be displayed when Google+ scopes are requested, but a white button
-        // may be displayed when only basic profile is requested. Try adding the
-        // Scopes.PLUS_LOGIN scope to the GoogleSignInOptions to see the
-        // difference.
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setScopes(gso.getScopeArray());
-        // [END customize_button]
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
-        }
-    }
-
-    // [START onActivityResult]
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-
-            GoogleSignInAccount acct = result.getSignInAccount();
-            String personName = acct.getDisplayName();
-            String personEmail = acct.getEmail();
-            String personId = acct.getId();
-            Uri personPhoto = acct.getPhotoUrl();
-            TextView username = (TextView)findViewById(R.id.userName);
-
-            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("personName", personName);
-            editor.putString("personEmail", personEmail);
-            editor.putString("personId", personId);
-            editor.putString("personPhoto", personPhoto.toString());
-
-            editor.commit();
-        }
-    }
-    // [END onActivityResult]
-
-    // [START handleSignInResult]
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-          updateUI(true);
-        } else {
-            // Signed out, show unauthenticated UI.
-            updateUI(false);
-        }
-    }
-    // [END handleSignInResult]
-
-    // [START signIn]
-    private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-    // [END signIn]
-
-    // [START signOut]
-    private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
-    // [END signOut]
-
-    // [START revokeAccess]
-    private void revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
-    // [END revokeAccess]
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
-    }
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
-
-    private void updateUI(boolean signedIn) {
-        if (signedIn) {
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-            findViewById(R.id.welcome).setVisibility(View.VISIBLE);
-
-        } else {
-            mStatusTextView.setText(R.string.signed_out);
-            findViewById(R.id.welcome).setVisibility(View.GONE);
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-
-                break;
-            case R.id.sign_out_button:
-                signOut();
-                break;
-            case R.id.disconnect_button:
-                revokeAccess();
-                break;
-        }
-    }
-    public void openHome(View view) {
-        Intent intent;
-        intent = new Intent(getApplicationContext(), HomeView.class);
-        startActivity(intent);
-    }
-}
+//package com.example.axelle.travelbuddy;
+//
+//import android.app.ListActivity;
+//import android.content.Intent;
+//import android.database.DataSetObserver;
+//import android.os.Bundle;
+//import android.util.Log;
+//import android.view.KeyEvent;
+//import android.view.View;
+//import android.view.inputmethod.EditorInfo;
+//import android.widget.AdapterView;
+//import android.widget.ArrayAdapter;
+//import android.widget.EditText;
+//import android.widget.ListView;
+//import android.widget.Spinner;
+//import android.widget.TextView;
+//import android.widget.Toast;
+//
+//import com.firebase.client.DataSnapshot;
+//import com.firebase.client.Firebase;
+//import com.firebase.client.FirebaseError;
+//import com.firebase.client.ValueEventListener;
+//
+//import hk.ust.cse.hunkim.questionroom.db.DBHelper;
+//import hk.ust.cse.hunkim.questionroom.db.DBUtil;
+//import hk.ust.cse.hunkim.questionroom.question.Question;
+//
+//public class MainActivity extends ListActivity {
+//
+//    // TODO: change this to your own Firebase URL
+//    private static final String FIREBASE_URL = "https://travelbuddy-hkust.firebaseio.com/";
+//
+//    private String roomName;
+//    private Firebase mFirebaseRef;
+//    private ValueEventListener mConnectedListener;
+//    private QuestionListAdapter mChatListAdapter;
+//    private String spinItem;
+//    private String sortItem;
+// //   private List<Question> mModels;
+//
+//    private DBUtil dbutil;
+//
+//    public DBUtil getDbutil() {
+//        return dbutil;
+//    }
+//
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//        //initialized once with an Android context.
+//        Firebase.setAndroidContext(this);
+//
+//        setContentView(R.layout.activity_main);
+//
+//        Intent intent = getIntent();
+//        assert (intent != null);
+//
+//// SPINNER
+//        final Spinner forSort = (Spinner) findViewById(R.id.sorts);
+//        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.sortArray, android.R.layout.simple_spinner_item);
+//        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        forSort.setAdapter(adapter1);
+//
+//        forSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> aview, View mview, int arg2, long arg3) {
+//
+//                TextView mytext = (TextView) mview;
+//                sortItem = mytext.getText().toString();
+//                if (mytext.getText().equals("~Sort Questions~"))
+//                {
+//                    mFirebaseRef.orderByChild("echo");
+//                }
+//                else if (mytext.getText().equals("Newest-Oldest")) {
+//                    Toast.makeText(MainActivity.this, "Sorting from " + mytext.getText(), Toast.LENGTH_SHORT).show();
+//                   mFirebaseRef.orderByChild("date");
+//
+//                  //  mChatListAdapter.sortModels(mModels);
+//                }
+//                else {
+//                    Toast.makeText(MainActivity.this, "Sorting by " + mytext.getText(), Toast.LENGTH_SHORT).show();
+//                  //  mFirebaseRef.orderByChild("echo");
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> arg0) {
+//
+//            }
+//        });
+//
+//        Spinner forCathash = (Spinner) findViewById(R.id.cathash);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.catArray, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        forCathash.setAdapter(adapter);
+//        // CharSequence temp;
+//        forCathash.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> aview, View mview, int arg2, long arg3) {
+//
+//                TextView mytext = (TextView) mview;
+//                if ( !mytext.getText().equals("~All Categories~")){
+//                Toast.makeText(MainActivity.this, "Category chosen is " + mytext.getText(), Toast.LENGTH_SHORT).show();}
+//                spinItem=mytext.getText().toString();
+//                // ListView lv = (ListView) findViewById(R.id.list);
+//             //   mChatListAdapter.sortModels(lv.getItemAtPosition());
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> arg0) {
+//
+//            }
+//        });
+//
+//// ROOM
+//        roomName = intent.getStringExtra(JoinActivity.ROOM_NAME);
+//        if (roomName == null || roomName.length() == 0) {
+//            roomName = "all";
+//        }
+//
+//        setTitle("Room name: " + roomName);
+//        TextView textViewToChange = (TextView) findViewById(R.id.welcome);
+//        textViewToChange.setText(roomName);
+//
+//
+//        // Setup our Firebase mFirebaseRef
+//        mFirebaseRef = new Firebase(FIREBASE_URL).child(roomName).child("questions");
+//
+//
+//        // Setup our input methods. Enter key on the keyboard or pushing the send button
+//        final EditText inputText = (EditText) findViewById(R.id.inputSearch);
+//        inputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+//
+//               if(actionId==EditorInfo.IME_ACTION_SEARCH|| keyEvent == null || keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+//                   TextView msg = (TextView) findViewById(R.id.head_desc);
+//                   //mChatListAdapter.performSearch(msg, inputText);
+//               }
+//               if (actionId == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+//                    sendMessage();
+//                }
+//                return true;
+//            }
+//        });
+//
+//  /*      inputText.addTextChangedListener(new TextWatcher() {
+//
+//            @Override
+//            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+//                // When user changed the Text
+//                performSearch();
+//                //mFirebaseRef.orderByChild(qmsg).equalTo(msg);
+//            }
+//
+//            @Override
+//            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+//                                          int arg3) {
+//                //
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable arg0) {
+//                //
+//
+//            }
+//        });*/
+//
+//
+//        findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sendMessage();
+//            }
+//        });
+//
+//        // get the DB Helper
+//        DBHelper mDbHelper = new DBHelper(this);
+//        dbutil = new DBUtil(mDbHelper);
+//    }
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//
+//        // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
+//        final ListView listView = getListView();
+//        // Tell our list adapter that we only want 200 messages at a time
+//        mChatListAdapter = new QuestionListAdapter(
+//                mFirebaseRef.limitToFirst(200),
+//                this, R.layout.question, roomName);
+//                listView.setAdapter(mChatListAdapter);
+//
+//        mChatListAdapter.registerDataSetObserver(new DataSetObserver() {
+//            @Override
+//            public void onChanged() {
+//                super.onChanged();
+//                listView.setSelection(mChatListAdapter.getCount() - 1);
+//            }
+//        });
+//
+//        // Finally, a little indication of connection status
+//        mConnectedListener = mFirebaseRef.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                boolean connected = (Boolean) dataSnapshot.getValue();
+//                if (connected) {
+//                    Toast.makeText(MainActivity.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(MainActivity.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//                // No-op
+//            }
+//        });
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
+//        mChatListAdapter.cleanup();
+//    }
+//
+//    private void sendMessage() {
+//        EditText inputText = (EditText) findViewById(R.id.inputSearch);
+//        String input = inputText.getText().toString();
+//        if (!input.equals("") && !spinItem.equals("~All Categories~")) {
+//            // Create our 'model', a Chat object
+//
+//            Question question = new Question(input);
+//            question.setSpinner(spinItem);
+//             // Create a new, auto-generated child of that chat location, and save our chat data there
+//            mFirebaseRef.push().setValue(question);
+//            inputText.setText("");
+//        }
+//        else if (spinItem.equals("~All Categories~")){
+//            Toast.makeText(MainActivity.this, "Choose a Category", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//
+//
+//
+//    public void attemptJoin(String key) {
+//        // Reset errors.
+//
+//
+//        // Store values at the time of the login attempt.
+//
+//
+//            // Start main activity
+//            Intent intent = new Intent(this, ReplyActivity.class);
+//            intent.putExtra("ROOM_NAME", roomName);
+//            intent.putExtra("KEY",key);
+//
+//            startActivity(intent);
+//    }
+//
+//    public void updateEcho(String key) {
+//
+//        if(dbutil.contains(key+"l")){
+//            final Firebase echoRef = mFirebaseRef.child(key).child("echo");
+//            echoRef.addListenerForSingleValueEvent(
+//                    new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            Long echoValue = (Long) dataSnapshot.getValue();
+//                            Log.e("Echo update:", "" + echoValue);
+//
+//                            echoRef.setValue(echoValue - 1);
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(FirebaseError firebaseError) {
+//
+//                        }
+//                    }
+//            );
+//
+//           final Firebase orderRef = mFirebaseRef.child(key).child("order");
+//            orderRef.addListenerForSingleValueEvent(
+//                    new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            Long orderValue = (Long) dataSnapshot.getValue();
+//                            Log.e("Order update:", "" + orderValue);
+//
+//                            orderRef.setValue(orderValue - 1);
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(FirebaseError firebaseError) {
+//
+//                        }
+//                    }
+//            );
+//            dbutil.delete(key+"l");
+//            Log.e("Dupkey", "Like + like");
+//            return;
+//        }
+//        else if (dbutil.contains(key+"d")){
+//            final Firebase echoRef = mFirebaseRef.child(key).child("echo");
+//            echoRef.addListenerForSingleValueEvent(
+//                    new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            Long echoValue = (Long) dataSnapshot.getValue();
+//                            Log.e("Echo update:", "" + echoValue);
+//
+//                            echoRef.setValue(echoValue + 2);
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(FirebaseError firebaseError) {
+//
+//                        }
+//                    }
+//            );
+//
+//            final Firebase orderRef = mFirebaseRef.child(key).child("order");
+//            orderRef.addListenerForSingleValueEvent(
+//                    new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            Long orderValue = (Long) dataSnapshot.getValue();
+//                            Log.e("Order update:", "" + orderValue);
+//
+//                            orderRef.setValue(orderValue + 2);
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(FirebaseError firebaseError) {
+//
+//                        }
+//                    }
+//            );
+//            dbutil.put(key+"l");
+//            dbutil.delete(key+"d");
+//            Log.e("Dupkey","Like + dislike");
+//            return;
+//        }
+//
+//        //like button
+//        final Firebase echoRef = mFirebaseRef.child(key).child("echo");
+//        echoRef.addListenerForSingleValueEvent(
+//                new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        Long echoValue = (Long) dataSnapshot.getValue();
+//                        Log.e("Echo update:", "" + echoValue);
+//
+//                        echoRef.setValue(echoValue + 1);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(FirebaseError firebaseError) {
+//
+//                    }
+//                }
+//        );
+//
+//        final Firebase orderRef = mFirebaseRef.child(key).child("order");
+//        orderRef.addListenerForSingleValueEvent(
+//                new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        Long orderValue = (Long) dataSnapshot.getValue();
+//                        Log.e("Order update:", "" + orderValue);
+//
+//                        orderRef.setValue(orderValue + 1);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(FirebaseError firebaseError) {
+//
+//                    }
+//                }
+//        );
+//        //Update SQLite DB
+//        Log.e("Dupkey", "Like + Neither");
+//        dbutil.put(key + "l");
+//    }
+//
+//    public void updateNeg_echo(String key){
+//          if(dbutil.contains(key+"d")){
+//              final Firebase neg_echoRef = mFirebaseRef.child(key).child("echo");
+//              neg_echoRef.addListenerForSingleValueEvent(
+//                      new ValueEventListener() {
+//                          @Override
+//                          public void onDataChange(DataSnapshot dataSnapshot) {
+//                              Long neg_echoValue = (Long) dataSnapshot.getValue();
+//                              Log.e("Neg_echo:", "" + neg_echoValue);
+//
+//                              neg_echoRef.setValue(neg_echoValue + 1);
+//                          }
+//
+//                          @Override
+//                          public void onCancelled(FirebaseError firebaseError) {
+//
+//                          }
+//                      }
+//              );
+//
+//              final Firebase orderRef = mFirebaseRef.child(key).child("order");
+//              orderRef.addListenerForSingleValueEvent(
+//                      new ValueEventListener() {
+//                          @Override
+//                          public void onDataChange(DataSnapshot dataSnapshot) {
+//                              Long orderValue = (Long) dataSnapshot.getValue();
+//                              Log.e("Order update:", "" + orderValue);
+//
+//                              orderRef.setValue(orderValue + 1);
+//                          }
+//
+//                          @Override
+//                          public void onCancelled(FirebaseError firebaseError) {
+//
+//                          }
+//                      }
+//              );
+//              dbutil.delete(key+"d");
+//              Log.e("Dupkey", "Dislike + Dislike");
+//              return;
+//          }
+//        else if (dbutil.contains(key+"l")){
+//              final Firebase neg_echoRef = mFirebaseRef.child(key).child("echo");
+//              neg_echoRef.addListenerForSingleValueEvent(
+//                      new ValueEventListener() {
+//                          @Override
+//                          public void onDataChange(DataSnapshot dataSnapshot) {
+//                              Long neg_echoValue = (Long) dataSnapshot.getValue();
+//                              Log.e("Neg_echo:", "" + neg_echoValue);
+//
+//                              neg_echoRef.setValue(neg_echoValue - 2);
+//                          }
+//
+//                          @Override
+//                          public void onCancelled(FirebaseError firebaseError) {
+//
+//                          }
+//                      }
+//              );
+//
+//              final Firebase orderRef = mFirebaseRef.child(key).child("order");
+//              orderRef.addListenerForSingleValueEvent(
+//                      new ValueEventListener() {
+//                          @Override
+//                          public void onDataChange(DataSnapshot dataSnapshot) {
+//                              Long orderValue = (Long) dataSnapshot.getValue();
+//                              Log.e("Order update:", "" + orderValue);
+//
+//                              orderRef.setValue(orderValue - 2);
+//                          }
+//
+//                          @Override
+//                          public void onCancelled(FirebaseError firebaseError) {
+//
+//                          }
+//                      }
+//              );
+//              dbutil.put(key+"d");
+//              dbutil.delete(key+"l");
+//              Log.e("Dupkey","Dislike + like");
+//              return;
+//          }
+//
+//        //dislike button
+//        final Firebase neg_echoRef = mFirebaseRef.child(key).child("echo");
+//        neg_echoRef.addListenerForSingleValueEvent(
+//                new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        Long neg_echoValue = (Long) dataSnapshot.getValue();
+//                        Log.e("Neg_echo:", "" + neg_echoValue);
+//
+//                        neg_echoRef.setValue(neg_echoValue - 1);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(FirebaseError firebaseError) {
+//
+//                    }
+//                }
+//        );
+//
+//        final Firebase orderRef = mFirebaseRef.child(key).child("order");
+//        orderRef.addListenerForSingleValueEvent(
+//                new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        Long orderValue = (Long) dataSnapshot.getValue();
+//                        Log.e("Order update:", "" + orderValue);
+//
+//                        orderRef.setValue(orderValue - 1);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(FirebaseError firebaseError) {
+//
+//                    }
+//                }
+//        );
+//        //Update SQLite DB
+//        Log.e("Dupkey", "Dislike + Neither");
+//        dbutil.put(key+"d");
+//    }
+//
+//    public void updateReport(String key) {
+//        if (dbutil.contains(key+"r")){
+//            Log.e("Dupkey", "Key is already in the Db!");
+//            return;
+//        }
+//        final Firebase reportRef = mFirebaseRef.child(key).child("reports");
+//        reportRef.addListenerForSingleValueEvent(
+//                new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        Long reportValue = (Long) dataSnapshot.getValue();
+//                        Log.e("Report update:", "" + reportValue);
+//
+//                        reportRef.setValue(reportValue + 1);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(FirebaseError firebaseError) {
+//
+//                    }
+//                }
+//        );
+//        dbutil.put(key+"r");
+//    }
+//
+//    public String getSpinItem(){return spinItem;}
+//    public String getSortItem(){return sortItem;}
+//   public void Close(View view) {
+//        finish();
+//    }
+//}

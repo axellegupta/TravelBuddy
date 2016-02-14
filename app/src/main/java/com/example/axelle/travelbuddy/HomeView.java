@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,7 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,6 +28,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class HomeView extends AppCompatActivity
         implements
@@ -60,6 +64,25 @@ public class HomeView extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_view);
 
+        Intent intent = getIntent();
+        int position = intent.getIntExtra("position", 0);
+
+        Fragment fragment;
+        FragmentManager fragmentManager = getSupportFragmentManager(); // For AppCompat use getSupportFragmentManager
+        switch(position) {
+            case 0:
+                fragment = new NewBooking().newInstance(position + 1);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
+                break;
+            case 1:
+                fragment = new BookingFragment().newInstance(position + 1);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
+                break;
+        }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -69,39 +92,6 @@ public class HomeView extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-//        // Button listener for Google Sign-In
-//        findViewById(R.id.sign_in_button).setOnClickListener(this);
-//
-//        // [START configure_signin]
-//        // Configure sign-in to request the user's ID, email address, and basic
-//        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//        // [END configure_signin]
-//
-//        // [START build_client]
-//        // Build a GoogleApiClient with access to the Google Sign-In API and the
-//        // options specified by gso.
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build();
-//        // [END build_client]
-//
-//        // [START customize_button]
-//        // Customize sign-in button. The sign-in button can be displayed in
-//        // multiple sizes and color schemes. It can also be contextually
-//        // rendered based on the requested scopes. For example. a red button may
-//        // be displayed when Google+ scopes are requested, but a white button
-//        // may be displayed when only basic profile is requested. Try adding the
-//        // Scopes.PLUS_LOGIN scope to the GoogleSignInOptions to see the
-//        // difference.
-//        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-//        signInButton.setSize(SignInButton.SIZE_STANDARD);
-//        signInButton.setScopes(gso.getScopeArray());
-//        //
     }
 
     @Override
@@ -129,7 +119,7 @@ public class HomeView extends AppCompatActivity
                         .commit();
                 break;
             case 3:
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, PrimaryActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -249,6 +239,13 @@ public class HomeView extends AppCompatActivity
     public static class BookingFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
+        String[] data = {
+                "LOL",
+                "WAT",
+                "TESTING",
+                "LAST"
+        };
+
         public static BookingFragment newInstance(int sectionNumber) {
             BookingFragment fragment = new BookingFragment();
             Bundle args = new Bundle();
@@ -264,9 +261,18 @@ public class HomeView extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
+//            List<String> bookings = new ArrayList(Arrays.asList(data));
+//
+//            ArrayAdapter<String> mArrayAdapter = new ArrayAdapter(
+//                    getActivity(),
+//                    R.layout.booking_item,
+//                    bookings
+//                    );
+//
+//            ListView listview = (ListView);
+
             View rootView = inflater.inflate(R.layout.fragment_booking, container, false);
             return rootView;
-
         }
 
         @Override
@@ -313,7 +319,6 @@ public class HomeView extends AppCompatActivity
 
             SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
             String personName = settings.getString("personName", "WTF");
-            personPhotoUriString = settings.getString("personPhoto", "");
             TextView txt = (TextView) findViewById(R.id.userName);
             txt.setText(personName);
         }

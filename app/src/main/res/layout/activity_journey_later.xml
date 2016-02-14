@@ -1,47 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <SeekBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/radiusBar"
-        android:longClickable="false"
-        android:contextClickable="true"
-        android:layout_marginTop="72dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:max="10"
-        android:progress="1"
-        android:indeterminate="false" />
-
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:text="Buddy Radius"
-        android:textSize="24dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set Journey"
-        android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="31dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/journey_details"
-        android:layout_above="@+id/button2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:orientation="vertical"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:text="From " />
+        android:weightSum="1"
+        android:layout_margin="10dp">
+
+        <CalendarView
+            android:id="@+id/calendar"
+            android:layout_width="347dp"
+            android:layout_height="180dp"
+            android:layout_above="@+id/button2"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/background_light"
+            android:layout_weight="12.60">
+
+        </CalendarView>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/journey_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:text="From "
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="addEvent"
+        android:text="Confirm &amp; Add Event" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/inputTime"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignRight="@+id/linearLayout"
+        android:layout_alignEnd="@+id/linearLayout" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText2"
+        android:layout_below="@+id/linearLayout"
+        android:layout_toLeftOf="@+id/inputTime"
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout"
+        android:text="Time: " />
+
 </RelativeLayout>
