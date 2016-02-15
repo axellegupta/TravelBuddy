@@ -2,14 +2,13 @@ package com.example.axelle.travelbuddy;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +34,8 @@ public class MainActivity extends ListActivity {
     //   private List<Booking> mModels;
 
     private DBUtil dbutil;
+    public boolean sort;
+    public String whoami;
 
     public DBUtil getDbutil() {
         return dbutil;
@@ -154,8 +155,17 @@ public class MainActivity extends ListActivity {
         String time = intent.getStringExtra("time");
         String from = intent.getStringExtra("from");
         String to = intent.getStringExtra("to");
+        String display = intent.getStringExtra("display");
 
-        Booking question = new Booking("user", year, month, day, time, from, to);
+        SharedPreferences settings = getSharedPreferences("GlobalSettings", 0);
+        String email = settings.getString("personEmail", "EMAIL NOT FOUND");
+        whoami = email;
+
+        if (display == null || time == null || time.equals("") || from == null || to == null) {
+            return;
+        }
+
+        Booking question = new Booking("user", year, month, day, time, from, to, display, email);
         // Create a new, auto-generated child of that chat location, and save our chat data there
         mFirebaseRef.push().setValue(question);
     }
@@ -434,5 +444,22 @@ public class MainActivity extends ListActivity {
 
     public void Close(View view) {
         finish();
+    }
+
+    public void sortBookings(View view) {
+
+        SharedPreferences settings = getSharedPreferences("GlobalSettings", 0);
+        String email = settings.getString("personEmail", "EMAIL NOT FOUND");
+        TextView name = (TextView) findViewById(R.id.name);
+        RelativeLayout temp = (RelativeLayout) name.getParent();
+
+        switch (view.getId()) {
+            case R.id.allBookings:
+                sort = false;
+
+                break;
+            case R.id.myBookings: sort = true;
+                break;
+        }
     }
 }

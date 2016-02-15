@@ -30,10 +30,9 @@
         android:elevation="4dp"
         android:textSize="16dp"
         android:background="@android:color/transparent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="5dp" />
+        android:layout_above="@+id/bookDate"
+        android:layout_toRightOf="@+id/random2"
+        android:layout_toEndOf="@+id/random2" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -56,10 +55,9 @@
         android:elevation="4dp"
         android:textSize="16dp"
         android:background="@android:color/transparent"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/bookVenue"
-        android:layout_toEndOf="@+id/bookVenue"
-        android:layout_margin="5dp" />
+        android:layout_below="@+id/random1"
+        android:layout_toRightOf="@+id/random2"
+        android:layout_toEndOf="@+id/random2" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -71,10 +69,9 @@
         android:elevation="4dp"
         android:textSize="16dp"
         android:background="@android:color/transparent"
-        android:layout_below="@+id/bookTime"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="5dp" />
+        android:layout_below="@+id/bookDate"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
     <Button
 
@@ -87,9 +84,71 @@
         android:padding="1dp"
         android:clickable="true"
         android:text="reply"
-        android:layout_alignParentBottom="true"
+        android:background="@mipmap/ic_launcher"
+        android:layout_alignBottom="@+id/linearLayout2"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="name"
+        android:id="@+id/name"
+        android:textColor="#111"
+        android:elegantTextHeight="false"
+        android:elevation="4dp"
+        android:textSize="20dp"
+        android:background="@android:drawable/button_onoff_indicator_off"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:layout_marginBottom="2dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time: "
+        android:id="@+id/random1"
+        android:textColor="#6a88ff"
+        android:elegantTextHeight="false"
+        android:elevation="4dp"
+        android:textSize="16dp"
+        android:background="@android:color/transparent"
+        android:layout_below="@+id/name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="date: "
+        android:id="@+id/random2"
+        android:textColor="#6a88ff"
+        android:elegantTextHeight="false"
+        android:elevation="4dp"
+        android:textSize="16dp"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/bookVenue"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="venue: "
+        android:id="@+id/textView"
+        android:textColor="#6a88ff"
+        android:elegantTextHeight="false"
+        android:elevation="4dp"
+        android:textSize="16dp"
+        android:background="@android:color/transparent"
+        android:layout_below="@+id/random2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold" />
 
 </RelativeLayout>
 

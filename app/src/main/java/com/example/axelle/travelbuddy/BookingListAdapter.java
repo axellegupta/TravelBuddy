@@ -1,21 +1,16 @@
 package com.example.axelle.travelbuddy;
 
 import android.app.Activity;
-import android.text.Html;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
+import com.example.axelle.travelbuddy.booking.Booking;
+import com.example.axelle.travelbuddy.db.DBUtil;
 import com.firebase.client.Query;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import com.example.axelle.travelbuddy.db.DBUtil;
-import com.example.axelle.travelbuddy.booking.Booking;
 
 /**
  * @author greg
@@ -55,11 +50,13 @@ public class BookingListAdapter extends FirebaseListAdapter<Booking> {
         TextView bookDate = (TextView) view.findViewById(R.id.bookDate);
         TextView bookTime = (TextView) view.findViewById(R.id.bookTime);
         TextView venue = (TextView) view.findViewById(R.id.bookVenue);
+        TextView name = (TextView) view.findViewById(R.id.name);
 
         String date = question.getCalendarDay() + "/" + question.getCalendarMonth() + "/" + question.getCalendarYear();
-        venue.setText(question.getFrom()+" -> " + question.getTo());
+        venue.setText(question.getDisplay());
         bookDate.setText(date);
         bookTime.setText(question.getTime());
+        name.setText(question.getUsername());
 
 // TIMESTAMP
         String dateString;
@@ -107,6 +104,16 @@ public class BookingListAdapter extends FirebaseListAdapter<Booking> {
 //        });
 
         RelativeLayout messg = (RelativeLayout) view.findViewById(R.id.qbox);
+
+        if (activity.sort == true){
+            if (question.getUsername()!=activity.whoami)
+                messg.setVisibility(View.GONE);
+        }
+        else
+        {
+            messg.setVisibility(View.VISIBLE);
+        }
+
 
 
     }

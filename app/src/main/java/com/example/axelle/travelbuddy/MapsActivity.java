@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -84,6 +86,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName());
 
+                from = place.getName().toString();
+
                 String placeDetailsStr = place.getName() + "\n"
                         + place.getId() + "\n"
                         + place.getLatLng().toString() + "\n"
@@ -109,6 +113,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName());
 
+                to = place.getName().toString();
+
                 String placeDetailsStr = place.getName() + "\n"
                         + place.getId() + "\n"
                         + place.getLatLng().toString() + "\n"
@@ -128,16 +134,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("alpha", markerA.getPosition().toString());
-        editor.putString("beta", markerB.getPosition().toString());
-
-        CharSequence place = "PLACE";
-
-        Toast.makeText(getApplicationContext(), place, Toast.LENGTH_SHORT).show();
-
-        editor.commit();
 
         map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
 
@@ -165,6 +161,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         startAutocompleteFragment.setText(display);
 
+                        from = display;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -184,6 +181,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Toast.makeText(getApplicationContext(), display, Toast.LENGTH_SHORT).show();
 
                         endAutocompleteFragment.setText(display);
+
+                        to = display;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -199,10 +198,68 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         });
 
-//        TextView txt = (TextView) findViewById(R.id.start);
     }
 
     public void journeyLater(View view) {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("alpha", markerA.getPosition().toString());
+        editor.putString("beta", markerB.getPosition().toString());
+
+        LatLng startover = markerA.getPosition();
+        LatLng endover = markerB.getPosition();
+
+//        LinearLayout linear1 = (LinearLayout) findViewById(R.id.start_location);
+//        LinearLayout linear2 = (LinearLayout) findViewById(R.id.end_location);
+
+
+
+        editor.putString("display1", from.toString());
+        editor.putString("display2", to.toString());
+
+//        Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
+//
+//        try {
+//            List<Address> addresses = geocoder.getFromLocation(startover.latitude, startover.longitude, 1);
+//            if (addresses.size() > 0) {
+//                String display = "";
+//
+//                for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
+//                    display += addresses.get(0).getAddressLine(i) + ", ";
+//                }
+//
+//                editor.putString("display1", display);
+//
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//
+//        }
+//
+//        try {
+//            List<Address> addresses = geocoder.getFromLocation(endover.latitude, endover.longitude, 1);
+//            if (addresses.size() > 0) {
+//                String display = "";
+//
+//                for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
+//                    display += addresses.get(0).getAddressLine(i) + ", ";
+//                }
+//
+//                editor.putString("display2", display);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//
+//        }
+//
+//        CharSequence place = "PLACE";
+//
+//        Toast.makeText(getApplicationContext(), place, Toast.LENGTH_SHORT).show();
+
+        editor.commit();
+
         Intent intent = new Intent(getApplicationContext(), JourneyLaterActivity.class);
 
         startActivity(intent);

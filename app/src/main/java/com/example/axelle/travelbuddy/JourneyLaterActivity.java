@@ -29,12 +29,13 @@ public class JourneyLaterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_journey_later);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        String display = settings.getString("display1","blah") + " -> "+settings.getString("display2","blah");
 
         from = settings.getString("alpha", "PLACE NOT FOUND");
         to = settings.getString("beta", "PLACE NOT FOUND");
 
         TextView txt = (TextView) findViewById(R.id.journey_details);
-        txt.setText("You will be travelling from \n" + from + "\n to \n" + to);
+        txt.setText(display);
 
         CalendarView calendar = (CalendarView) findViewById(R.id.calendar);
 
@@ -61,6 +62,7 @@ public class JourneyLaterActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         from = settings.getString("alpha", "PLACE NOT FOUND");
         to = settings.getString("beta", "PLACE NOT FOUND");
+        String display = settings.getString("display1","blah") + " -> "+settings.getString("display2","blah");
 
         intent.putExtra("calendarYear", calendarYear);
         intent.putExtra("calendarMonth", calendarMonth);
@@ -68,6 +70,7 @@ public class JourneyLaterActivity extends AppCompatActivity {
         intent.putExtra("time", time);
         intent.putExtra("from", from);
         intent.putExtra("to", to);
+        intent.putExtra("display", display);
 
         startActivity(intent);
 

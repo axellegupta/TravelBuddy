@@ -17,41 +17,44 @@
         android:weightSum="1"
         android:layout_margin="10dp">
 
+        <TextView
+            android:id="@+id/journey_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="From "
+            android:textSize="16dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/inputTime"
+            android:layout_alignRight="@+id/inputTime"
+            android:layout_alignEnd="@+id/inputTime"
+            android:background="@android:drawable/alert_light_frame"
+            android:elevation="2dp" />
+
         <CalendarView
             android:id="@+id/calendar"
             android:layout_width="347dp"
-            android:layout_height="180dp"
+            android:layout_height="249dp"
             android:layout_above="@+id/button2"
             android:layout_centerHorizontal="true"
             android:background="@android:color/background_light"
-            android:layout_weight="12.60">
+            android:elevation="5dp"
+            android:layout_marginTop="10dp">
 
         </CalendarView>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/journey_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="From "
-        android:textSize="20dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/inputTime"
-        android:layout_alignRight="@+id/inputTime"
-        android:layout_alignEnd="@+id/inputTime"
-        android:layout_margin="10dp" />
-
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:onClick="addEvent"
-        android:text="Confirm &amp; Add Event" />
+        android:text="Confirm &amp; Add Event"
+        android:layout_below="@+id/inputTime"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -61,7 +64,8 @@
         android:id="@+id/inputTime"
         android:layout_below="@+id/linearLayout"
         android:layout_alignRight="@+id/linearLayout"
-        android:layout_alignEnd="@+id/linearLayout" />
+        android:layout_alignEnd="@+id/linearLayout"
+        android:textSize="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -71,6 +75,9 @@
         android:layout_toLeftOf="@+id/inputTime"
         android:layout_alignLeft="@+id/linearLayout"
         android:layout_alignStart="@+id/linearLayout"
-        android:text="Time: " />
+        android:text="Time: "
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/inputTime" />
 
 </RelativeLayout>

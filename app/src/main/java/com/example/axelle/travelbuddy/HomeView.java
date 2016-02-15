@@ -18,9 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,9 +26,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class HomeView extends AppCompatActivity
         implements
@@ -69,7 +64,7 @@ public class HomeView extends AppCompatActivity
 
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager(); // For AppCompat use getSupportFragmentManager
-        switch(position) {
+        switch (position) {
             case 0:
                 fragment = new NewBooking().newInstance(position + 1);
                 fragmentManager.beginTransaction()
@@ -77,10 +72,8 @@ public class HomeView extends AppCompatActivity
                         .commit();
                 break;
             case 1:
-                fragment = new BookingFragment().newInstance(position + 1);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit();
+                Intent mIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(mIntent);
                 break;
         }
 
@@ -99,21 +92,19 @@ public class HomeView extends AppCompatActivity
         // update the main content by replacing fragments
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager(); // For AppCompat use getSupportFragmentManager
-        switch(position) {
+        switch (position) {
             case 0:
-                fragment= new NewBooking().newInstance(position+1);
+                fragment = new NewBooking().newInstance(position + 1);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment)
                         .commit();
                 break;
             case 1:
-                fragment = new BookingFragment().newInstance(position+1);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit();
+                Intent mIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(mIntent);
                 break;
             case 2:
-                fragment = new PlaceholderFragment().newInstance(position+1);
+                fragment = new PlaceholderFragment().newInstance(position + 1);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment)
                         .commit();
@@ -123,7 +114,7 @@ public class HomeView extends AppCompatActivity
                 startActivity(intent);
                 break;
             default:
-                fragment = new PlaceholderFragment().newInstance(position+1);
+                fragment = new PlaceholderFragment().newInstance(position + 1);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment)
                         .commit();
@@ -236,55 +227,8 @@ public class HomeView extends AppCompatActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-    public static class BookingFragment extends Fragment {
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        String[] data = {
-                "LOL",
-                "WAT",
-                "TESTING",
-                "LAST"
-        };
-
-        public static BookingFragment newInstance(int sectionNumber) {
-            BookingFragment fragment = new BookingFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public BookingFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-//            List<String> bookings = new ArrayList(Arrays.asList(data));
-//
-//            ArrayAdapter<String> mArrayAdapter = new ArrayAdapter(
-//                    getActivity(),
-//                    R.layout.booking_item,
-//                    bookings
-//                    );
-//
-//            ListView listview = (ListView);
-
-            View rootView = inflater.inflate(R.layout.fragment_booking, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((HomeView) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
-
-
-     class NewBooking extends Fragment {
+    class NewBooking extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public NewBooking newInstance(int sectionNumber) {

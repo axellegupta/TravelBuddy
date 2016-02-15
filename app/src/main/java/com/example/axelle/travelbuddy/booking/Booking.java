@@ -1,17 +1,19 @@
 package com.example.axelle.travelbuddy.booking;
 
-import com.google.android.gms.maps.model.LatLng;
-
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Booking implements Comparable<Booking> {
 
+    private String display;
     /**
      * Must be synced with firebase JSON structure
      * Each must have getters
      */
     private String key;
     private String id;
+    private String username;
     private String wholeMsg;
     private boolean completed;
     private long timestamp;
@@ -34,6 +36,7 @@ public class Booking implements Comparable<Booking> {
     public String getId() {
         return id;
     }
+    public String getUsername() { return username; }
     public String getText() {
         return text;
     }
@@ -63,17 +66,23 @@ public class Booking implements Comparable<Booking> {
      *
      * @param message string message
      */
-    public Booking(String message, int year, int month, int day, String time, String from, String to) {
+    public Booking(String message, int year, int month, int day, String time, String from, String to, String display, String username) {
         this.wholeMsg = message;
         this.echo = 0;
         this.reports = 0;
-        this.timestamp = new Date().getTime();
         this.calendarYear = year;
         this.calendarMonth = month;
         this.calendarDay = day;
         this.time = time;
         this.from = from;
         this.to = to;
+        this.display=display;
+        this.username = username;
+
+        String[] arr1 = time.split(":");
+        Calendar c = GregorianCalendar.getInstance();
+        c.set(year, month, day, Integer.getInteger(arr1[0]), Integer.getInteger(arr1[1]));
+        this.timestamp = c.getTime().getTime();
     }
 
     public Booking(String message, int key) {
@@ -95,6 +104,7 @@ public class Booking implements Comparable<Booking> {
         return wholeMsg;
     }
 
+    public String getDisplay(){return this.display;}
 
     public boolean isCompleted() {
         return completed;
@@ -152,6 +162,10 @@ public class Booking implements Comparable<Booking> {
         other.updateNewQuestion(); // update NEW button
         this.updateNewQuestion();
 
+
+
+        String[] arr2 = this.getTime().split(":");
+//        Date thisDate = new Date(this.getCalendarYear(), this.getCalendarMonth(), this.getCalendarDay(), Integer.getInteger(arr2[0]), Integer.getInteger(arr2[1]));
         if (this.newQuestion != other.newQuestion) {
             return this.newQuestion ? 1 : -1; // this is the winner
         }
