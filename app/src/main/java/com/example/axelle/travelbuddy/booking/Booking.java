@@ -63,7 +63,7 @@ public class Booking implements Comparable<Booking> {
      *
      * @param message string message
      */
-    public Booking(String message, int year, int month, int day, String time) {
+    public Booking(String message, int year, int month, int day, String time, String from, String to) {
         this.wholeMsg = message;
         this.echo = 0;
         this.reports = 0;
@@ -72,7 +72,8 @@ public class Booking implements Comparable<Booking> {
         this.calendarMonth = month;
         this.calendarDay = day;
         this.time = time;
-
+        this.from = from;
+        this.to = to;
     }
 
     public Booking(String message, int key) {

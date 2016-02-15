@@ -205,9 +205,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void journeyLater(View view) {
         Intent intent = new Intent(getApplicationContext(), JourneyLaterActivity.class);
 
-        intent.putExtra("from", markerA.getPosition().toString());
-        intent.putExtra("to", markerB.getPosition().toString());
-
         startActivity(intent);
     }
 

@@ -152,8 +152,10 @@ public class MainActivity extends ListActivity {
         int month = intent.getIntExtra("calendarMonth", 0);
         int day = intent.getIntExtra("calendarDay", 0);
         String time = intent.getStringExtra("time");
+        String from = intent.getStringExtra("from");
+        String to = intent.getStringExtra("to");
 
-        Booking question = new Booking("user", year, month, day, time);
+        Booking question = new Booking("user", year, month, day, time, from, to);
         // Create a new, auto-generated child of that chat location, and save our chat data there
         mFirebaseRef.push().setValue(question);
     }

@@ -8,9 +8,6 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by prashanthcr on 8/2/2016.
@@ -23,8 +20,8 @@ public class JourneyLaterActivity extends AppCompatActivity {
     private int calendarMonth = 1;
     private int calendarDay = 4;
     private String time = "5:30";
-    private String from="from";
-    private String to="to";
+    private String from = "from";
+    private String to = "to";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
