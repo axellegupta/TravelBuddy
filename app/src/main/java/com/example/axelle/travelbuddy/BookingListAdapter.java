@@ -2,6 +2,7 @@ package com.example.axelle.travelbuddy;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,6 +48,18 @@ public class BookingListAdapter extends FirebaseListAdapter<Booking> {
     protected void populateView(View view, Booking question) {
         DBUtil dbUtil = activity.getDbutil();
 
+        Button replyButton = (Button) view.findViewById(R.id.reply);
+        replyButton.setTag(question.getKey());
+
+        replyButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MainActivity m = (MainActivity) view.getContext();
+                        m.onReply((String) view.getTag());
+                    }
+                }
+        );
         TextView bookDate = (TextView) view.findViewById(R.id.bookDate);
         TextView bookTime = (TextView) view.findViewById(R.id.bookTime);
         TextView venue = (TextView) view.findViewById(R.id.bookVenue);

@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity">
+
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:transcriptMode="alwaysScroll"
+        android:layout_above="@+id/listFooter"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/close" />
+
+    <Button
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Close"
+        android:text = "Back to Room"
+        android:textColor="#e8f6ff"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="5dp"
+        android:allowUndo="true"
+        android:textStyle="bold"
+        android:elevation="30dp"
+        android:background="#192755"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp" />
+
+    <LinearLayout
+        android:id="@+id/listFooter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="@android:drawable/alert_light_frame"
+        android:layout_margin="0dp">
+
+        <EditText
+            android:id="@+id/inputSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:inputType="textShortMessage"
+            android:fontFamily="@string/abc_searchview_description_query"
+            android:lines="1"
+            android:singleLine="true"
+            android:padding="2dp"
+            android:layout_margin="0dp"
+            android:backgroundTint="@android:color/background_light"
+            android:backgroundTintMode="add" />
+
+        <ImageButton
+            android:id="@+id/sendButton"
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+            android:src="@android:drawable/ic_menu_send"
+            android:elevation="10dp"
+            android:foregroundGravity="center" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/welcome"
+        android:textColor="@android:color/white"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/close"
+        android:singleLine="false"
+        android:padding="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+        android:textIsSelectable="true"
+        android:textStyle="bold"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:theme="@style/RtlOverlay.Widget.AppCompat.ActionBar.TitleItem"
+        android:elevation="50dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:text="CHaT"
+        android:background="@android:color/holo_blue_dark" />
+
+</RelativeLayout>

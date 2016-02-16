@@ -83,9 +83,9 @@
             android:padding="1dp"
             android:text="reply"
             android:textColor="#111"
-            android:layout_above="@+id/linearLayout2"
-            android:layout_alignRight="@+id/linearLayout2"
-            android:layout_alignEnd="@+id/linearLayout2" />
+            android:layout_below="@+id/bookVenue"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:id="@+id/name"

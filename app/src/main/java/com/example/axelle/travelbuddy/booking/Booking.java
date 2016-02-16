@@ -11,6 +11,14 @@ public class Booking implements Comparable<Booking> {
      * Must be synced with firebase JSON structure
      * Each must have getters
      */
+    public reply[] replies;
+    private boolean isReply;
+    private boolean newreply;
+
+    public boolean isNewreply(){
+        return newreply;
+    }
+
     private String key;
     private String id;
     private String username;

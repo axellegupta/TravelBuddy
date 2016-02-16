@@ -29,8 +29,7 @@ public class MainActivity extends ListActivity {
     private Firebase mFirebaseRef;
     private ValueEventListener mConnectedListener;
     private BookingListAdapter mChatListAdapter;
-    private String spinItem;
-    private String sortItem;
+
     //   private List<Booking> mModels;
 
     private DBUtil dbutil;
@@ -462,5 +461,13 @@ public class MainActivity extends ListActivity {
                 mChatListAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    public void onReply(String key) {
+        Intent intent = new Intent(this, ReplyActivity.class);
+        intent.putExtra("ROOM_NAME", roomName);
+        intent.putExtra("KEY", key);
+
+        startActivity(intent);
     }
 }

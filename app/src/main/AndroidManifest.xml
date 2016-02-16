@@ -25,6 +25,7 @@
         </activity>
 
         <activity android:name=".MainActivity" android:label="main" />
+        <activity android:name=".ReplyActivity" android:label="reply" />
 
         <activity
             android:name=".JourneyLaterActivity"
