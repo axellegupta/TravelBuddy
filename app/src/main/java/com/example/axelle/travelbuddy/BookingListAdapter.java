@@ -106,8 +106,11 @@ public class BookingListAdapter extends FirebaseListAdapter<Booking> {
         RelativeLayout messg = (RelativeLayout) view.findViewById(R.id.qbox);
 
         if (activity.sort == true){
-            if (question.getUsername()!=activity.whoami)
+            if (sortSearch(activity.whoami, question)==false)
                 messg.setVisibility(View.GONE);
+            else
+                messg.setVisibility(View.VISIBLE);
+
         }
         else
         {
@@ -141,6 +144,15 @@ public class BookingListAdapter extends FirebaseListAdapter<Booking> {
         }
         return temp;
     }
+    public boolean sortSearch(String whoami, Booking question) {
 
+        if (whoami.equals(question.getUsername()))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
 }

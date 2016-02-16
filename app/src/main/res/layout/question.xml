@@ -7,149 +7,148 @@
     android:padding="5dp"
     android:weightSum="1">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="1"
-    android:background="@android:drawable/dialog_holo_light_frame"
-    android:visibility="visible"
-    android:focusable="false"
-    android:padding="20dp"
-    android:elevation="0dp"
-    android:touchscreenBlocksFocus="false"
-    android:id="@+id/qbox">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="time"
-        android:id="@+id/bookTime"
-        android:textColor="#6a88ff"
-        android:elegantTextHeight="false"
-        android:elevation="4dp"
-        android:textSize="16dp"
-        android:background="@android:color/transparent"
-        android:layout_above="@+id/bookDate"
-        android:layout_toRightOf="@+id/random2"
-        android:layout_toEndOf="@+id/random2" />
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/qbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:weightSum="1"
-        android:id="@+id/linearLayout2"
-        android:layout_alignParentBottom="true">
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:elevation="0dp"
+        android:focusable="false"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:touchscreenBlocksFocus="false"
+        android:visibility="visible"
+        android:weightSum="1">
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/bookTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bookDate"
+            android:layout_toEndOf="@+id/random2"
+            android:layout_toRightOf="@+id/random2"
+            android:background="@android:color/transparent"
+            android:elegantTextHeight="false"
+            android:elevation="4dp"
+            android:text="time"
+            android:textColor="#6a88ff"
+            android:textSize="16dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="date"
-        android:id="@+id/bookDate"
-        android:textColor="#6a88ff"
-        android:elegantTextHeight="false"
-        android:elevation="4dp"
-        android:textSize="16dp"
-        android:background="@android:color/transparent"
-        android:layout_below="@+id/random1"
-        android:layout_toRightOf="@+id/random2"
-        android:layout_toEndOf="@+id/random2" />
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="venue"
-        android:id="@+id/bookVenue"
-        android:textColor="#6a88ff"
-        android:elegantTextHeight="false"
-        android:elevation="4dp"
-        android:textSize="16dp"
-        android:background="@android:color/transparent"
-        android:layout_below="@+id/bookDate"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
+        </LinearLayout>
 
-    <Button
+        <TextView
+            android:id="@+id/bookDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/random1"
+            android:layout_toEndOf="@+id/random2"
+            android:layout_toRightOf="@+id/random2"
+            android:background="@android:color/transparent"
+            android:elegantTextHeight="false"
+            android:elevation="4dp"
+            android:text="date"
+            android:textColor="#6a88ff"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/bookVenue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bookDate"
+            android:layout_toEndOf="@+id/textView"
+            android:layout_toRightOf="@+id/textView"
+            android:background="@android:color/transparent"
+            android:elegantTextHeight="false"
+            android:elevation="4dp"
+            android:text="venue"
+            android:textColor="#6a88ff"
+            android:textSize="16dp" />
+
+        <Button
 
 
+            android:id="@+id/reply"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:clickable="true"
+            android:padding="1dp"
+            android:text="reply"
+            android:textColor="#111"
+            android:layout_above="@+id/linearLayout2"
+            android:layout_alignRight="@+id/linearLayout2"
+            android:layout_alignEnd="@+id/linearLayout2" />
 
-        android:id="@+id/reply"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:textColor="#111"
-        android:padding="1dp"
-        android:clickable="true"
-        android:text="reply"
-        android:background="@mipmap/ic_launcher"
-        android:layout_alignBottom="@+id/linearLayout2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="2dp"
+            android:background="@android:drawable/button_onoff_indicator_off"
+            android:elegantTextHeight="false"
+            android:elevation="4dp"
+            android:padding="5sp"
+            android:text="name"
+            android:textColor="#111"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="name"
-        android:id="@+id/name"
-        android:textColor="#111"
-        android:elegantTextHeight="false"
-        android:elevation="4dp"
-        android:textSize="20dp"
-        android:background="@android:drawable/button_onoff_indicator_off"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textStyle="bold"
-        android:layout_marginBottom="2dp" />
+        <TextView
+            android:id="@+id/random1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/name"
+            android:background="@android:color/transparent"
+            android:elegantTextHeight="false"
+            android:elevation="4dp"
+            android:text="time: "
+            android:textColor="#6a88ff"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="time: "
-        android:id="@+id/random1"
-        android:textColor="#6a88ff"
-        android:elegantTextHeight="false"
-        android:elevation="4dp"
-        android:textSize="16dp"
-        android:background="@android:color/transparent"
-        android:layout_below="@+id/name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/random2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bookVenue"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/transparent"
+            android:elegantTextHeight="false"
+            android:elevation="4dp"
+            android:text="date: "
+            android:textColor="#6a88ff"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="date: "
-        android:id="@+id/random2"
-        android:textColor="#6a88ff"
-        android:elegantTextHeight="false"
-        android:elevation="4dp"
-        android:textSize="16dp"
-        android:background="@android:color/transparent"
-        android:layout_above="@+id/bookVenue"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/random2"
+            android:background="@android:color/transparent"
+            android:elegantTextHeight="false"
+            android:elevation="4dp"
+            android:text="venue: "
+            android:textColor="#6a88ff"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="venue: "
-        android:id="@+id/textView"
-        android:textColor="#6a88ff"
-        android:elegantTextHeight="false"
-        android:elevation="4dp"
-        android:textSize="16dp"
-        android:background="@android:color/transparent"
-        android:layout_below="@+id/random2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textStyle="bold" />
-
-</RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>

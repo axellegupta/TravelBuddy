@@ -79,9 +79,10 @@ public class Booking implements Comparable<Booking> {
         this.display=display;
         this.username = username;
 
+
         String[] arr1 = time.split(":");
         Calendar c = GregorianCalendar.getInstance();
-        c.set(year, month, day, Integer.getInteger(arr1[0]), Integer.getInteger(arr1[1]));
+        c.set(year, month, day, Integer.parseInt(arr1[0]), Integer.parseInt(arr1[1]));
         this.timestamp = c.getTime().getTime();
     }
 
@@ -163,21 +164,44 @@ public class Booking implements Comparable<Booking> {
         this.updateNewQuestion();
 
 
-
-        String[] arr2 = this.getTime().split(":");
+        String[] arr1 = other.time.split(":");
+        String[] arr2 = this.time.split(":");
 //        Date thisDate = new Date(this.getCalendarYear(), this.getCalendarMonth(), this.getCalendarDay(), Integer.getInteger(arr2[0]), Integer.getInteger(arr2[1]));
-        if (this.newQuestion != other.newQuestion) {
-            return this.newQuestion ? 1 : -1; // this is the winner
-        }
+//        if (this.newQuestion != other.newQuestion) {
+//            return this.newQuestion ? 1 : -1; // this is the winner
+//        }
 
 
-        if (this.echo == other.echo) {
-            if (other.timestamp == this.timestamp) {
-                return 0;
+        if (this.calendarYear == other.calendarYear) {
+            if (this.calendarMonth == other.calendarMonth) {
+                if (this.calendarDay == other.calendarDay) {
+                    if (Integer.parseInt(arr2[0]) == Integer.parseInt(arr1[0])) { // hour
+                        if (Integer.parseInt(arr2[1]) == Integer.parseInt(arr1[1])) { // minute
+                            return 0;
+                        } else {
+                            return Integer.parseInt(arr1[1]) > Integer.parseInt(arr2[1]) ? -1 : 1;
+                        }
+                    } else {
+                        return Integer.parseInt(arr1[0]) > Integer.parseInt(arr2[0]) ? -1 : 1;
+                    }
+                }
+                else
+                    return other.calendarDay > this.calendarDay ? -1 : 1;
             }
-            return other.timestamp > this.timestamp ? -1 : 1;
+            else
+                return other.calendarMonth > this.calendarMonth ? -1 : 1;
         }
-        return this.echo - other.echo;
+        else
+            return other.calendarYear > this.calendarYear ? -1 : 1;
+
+
+//        if (this.echo == other.echo) {
+//            if (other.calendarMonth == this.calendarMonth) {
+//                return 0;
+//            }
+//            return other.calendarMonth > this.calendarMonth ? -1 : 1;
+//        }
+//   return this.echo - other.echo;
     }
 
 

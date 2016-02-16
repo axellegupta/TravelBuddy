@@ -61,33 +61,15 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Journey Later"
+        android:text="Next"
         android:id="@+id/journey_later"
         android:background="@color/background_floating_material_dark"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:padding="5dp"
+        android:layout_marginBottom="41dp"
+        android:onClick="journeyLater"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/end_location"
-        android:layout_alignEnd="@+id/end_location"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:onClick="journeyLater"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Journey Now"
-        android:id="@+id/journey_now"
-        android:background="@color/background_floating_material_dark"
-        android:textColor="@android:color/white"
-        android:textSize="16dp"
-        android:padding="5dp"
-        android:layout_alignTop="@+id/journey_later"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="34dp"
-        android:layout_marginEnd="34dp" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

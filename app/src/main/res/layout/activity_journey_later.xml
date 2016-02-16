@@ -26,11 +26,75 @@
             android:textSize="16dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/inputTime"
-            android:layout_alignRight="@+id/inputTime"
-            android:layout_alignEnd="@+id/inputTime"
+            android:layout_below="@+id/minute"
+            android:layout_alignRight="@+id/minute"
+            android:layout_alignEnd="@+id/minute"
             android:background="@android:drawable/alert_light_frame"
             android:elevation="2dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignLeft="@+id/linearLayout"
+            android:layout_alignStart="@+id/linearLayout"
+            android:layout_alignRight="@+id/linearLayout"
+            android:layout_alignEnd="@+id/linearLayout"
+            android:id="@+id/linearLayout4"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText2"
+                android:layout_below="@+id/linearLayout"
+                android:layout_alignLeft="@+id/linearLayout"
+                android:layout_alignStart="@+id/linearLayout"
+                android:text="Time: "
+                android:textSize="20dp"
+                android:gravity="center"
+                android:layout_alignBottom="@+id/minute" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/hour"
+                android:textSize="16sp"
+                android:layout_below="@+id/linearLayout"
+                android:layout_alignRight="@+id/linearLayout"
+                android:layout_alignEnd="@+id/linearLayout"
+                android:layout_toRightOf="@+id/minute"
+                android:layout_toEndOf="@+id/minute"
+                android:background="@color/common_plus_signin_btn_text_dark_pressed"
+                android:hint="24 hours"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:id="@+id/textView3"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/minute"
+                android:layout_below="@+id/linearLayout"
+                android:textSize="16sp"
+                android:layout_alignRight="@+id/button2"
+                android:layout_alignEnd="@+id/button2"
+                android:background="@color/common_plus_signin_btn_text_dark_pressed"
+                android:hint="60 minutes"
+                android:gravity="center" />
+        </LinearLayout>
 
         <CalendarView
             android:id="@+id/calendar"
@@ -52,32 +116,16 @@
         android:layout_height="wrap_content"
         android:onClick="addEvent"
         android:text="Confirm &amp; Add Event"
-        android:layout_below="@+id/inputTime"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true" />
 
-    <EditText
+    <Button
+        android:id="@+id/seeAllBookings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="time"
-        android:ems="10"
-        android:id="@+id/inputTime"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignRight="@+id/linearLayout"
-        android:layout_alignEnd="@+id/linearLayout"
-        android:textSize="16dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText2"
-        android:layout_below="@+id/linearLayout"
-        android:layout_toLeftOf="@+id/inputTime"
-        android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout"
-        android:text="Time: "
-        android:textSize="20dp"
-        android:gravity="center"
-        android:layout_alignBottom="@+id/inputTime" />
+        android:onClick="viewBookings"
+        android:text="View all bookings"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

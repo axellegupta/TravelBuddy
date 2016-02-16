@@ -159,7 +159,6 @@ public class MainActivity extends ListActivity {
 
         SharedPreferences settings = getSharedPreferences("GlobalSettings", 0);
         String email = settings.getString("personEmail", "EMAIL NOT FOUND");
-        whoami = email;
 
         if (display == null || time == null || time.equals("") || from == null || to == null) {
             return;
@@ -450,15 +449,17 @@ public class MainActivity extends ListActivity {
 
         SharedPreferences settings = getSharedPreferences("GlobalSettings", 0);
         String email = settings.getString("personEmail", "EMAIL NOT FOUND");
+        whoami=email;
         TextView name = (TextView) findViewById(R.id.name);
-        RelativeLayout temp = (RelativeLayout) name.getParent();
+
 
         switch (view.getId()) {
             case R.id.allBookings:
                 sort = false;
-
+                mChatListAdapter.notifyDataSetChanged();
                 break;
             case R.id.myBookings: sort = true;
+                mChatListAdapter.notifyDataSetChanged();
                 break;
         }
     }
