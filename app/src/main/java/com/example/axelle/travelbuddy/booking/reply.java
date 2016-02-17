@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by roncool on 11/22/15.
  */
 
-public class reply implements Comparable<reply>{
+public class Reply implements Comparable<Reply>{
     private int key;
     private double id;
     public String wholeMsg;
@@ -23,7 +23,7 @@ public class reply implements Comparable<reply>{
     private int reports;
     private postedBy postedBy;
     private String text;
-    public reply[] replies;
+    public Reply[] replies;
     private int value=0;
 
     public double getId() {
@@ -55,10 +55,10 @@ public class reply implements Comparable<reply>{
 
     // Required default constructor for Firebase object mapping
     @SuppressWarnings("unused")
-    public reply() {
+    public Reply() {
     }
 
-    public reply(boolean a) {
+    public Reply(boolean a) {
     }
 
     /**
@@ -66,7 +66,7 @@ public class reply implements Comparable<reply>{
      *
      * @param message string message
      */
-    public reply(String message, String replyName) {
+    public Reply(String message, String replyName) {
         this.wholeMsg = message;
         this.echo = 0;
 
@@ -77,7 +77,7 @@ public class reply implements Comparable<reply>{
         this.id = 3;
     }
 
-    public reply(String message, int key, String replyName) {
+    public Reply(String message, int key, String replyName) {
         this.wholeMsg = message;
         this.echo = 0;
         this.replyName=replyName;
@@ -141,7 +141,7 @@ public class reply implements Comparable<reply>{
      * @return order
      */
 
-    public int compareTo(reply other) {
+    public int compareTo(Reply other) {
         // Push new on top
         other.updateNewQuestion(); // update NEW button
         this.updateNewQuestion();
@@ -163,10 +163,10 @@ public class reply implements Comparable<reply>{
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof reply)) {
+        if (!(o instanceof Reply)) {
             return false;
         }
-        reply other = (reply) o;
+        Reply other = (Reply) o;
         return key==other.key;
     }
 
@@ -178,5 +178,5 @@ public class reply implements Comparable<reply>{
         return this.replyName;
     }
 
-
+    public void setReplyName(String replyName) { this.replyName = replyName;}
 }

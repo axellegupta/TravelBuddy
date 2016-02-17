@@ -1,25 +1,19 @@
 package com.example.axelle.travelbuddy;
 
-import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.SpinnerAdapter;
-import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
-import android.content.Intent;
+
+import com.example.axelle.travelbuddy.booking.Reply;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -29,12 +23,8 @@ import java.util.Date;
 
 import com.example.axelle.travelbuddy.db.DBHelper;
 import com.example.axelle.travelbuddy.db.DBUtil;
-import com.example.axelle.travelbuddy.booking.Booking;
-import com.example.axelle.travelbuddy.booking.reply;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import com.firebase.client.GenericTypeIndicator;
 
@@ -78,7 +68,7 @@ public class ReplyActivity extends MainActivity {
 
         setTitle("Replies");
         TextView textViewToChange = (TextView) findViewById(R.id.welcome);
-        textViewToChange.setText("replies");
+        textViewToChange.setText("Replies");
 
         mFirebaseRef = new Firebase(FIREBASE_URL).child(roomName).child("questions").child(keyName).child("replies");
 
@@ -171,12 +161,12 @@ public class ReplyActivity extends MainActivity {
         if (!input.equals("")) {
             // Create our 'model', a Chat object
             mFirebaseRef.once("value", function(snapshot)) {
-                GenericTypeIndicator<List<reply>> t = new GenericTypeIndicator<List<reply>>() {
+                GenericTypeIndicator<List<Reply>> t = new GenericTypeIndicator<List<Reply>>() {
                 };
                 List<comment> messages = dataSnapshot.getValue(t);
-                ArrayList<reply> tempComments = new ArrayList<reply>();
+                ArrayList<Reply> tempComments = new ArrayList<Reply>();
 
-                reply question = new reply(input);
+                Reply question = new Reply(input);
             }
             // Create a new, auto-generated child of that chat location, and save our chat data there
             mFirebaseRef.setPriority(0);
@@ -201,19 +191,23 @@ public class ReplyActivity extends MainActivity {
                                 Map groupNames = snapshot.getValue();
                                 List groupNamesList = new ArrayList(groupNames.values());
                                 */
-                            GenericTypeIndicator<List<reply>> msgList = new GenericTypeIndicator<List<reply>>() {
+                            GenericTypeIndicator<List<Reply>> msgList = new GenericTypeIndicator<List<Reply>>() {
                             };
-                            List<reply> messages = dataSnapshot.getValue(msgList);
+                            List<Reply> messages = dataSnapshot.getValue(msgList);
 
-                            ArrayList<reply> tempReplies = new ArrayList<reply>();
+                            ArrayList<Reply> tempReplies = new ArrayList<Reply>();
 
                             if (messages != null) {
-                                for (reply getComment : messages) {
+                                for (Reply getComment : messages) {
                                     tempReplies.add(getComment);
                                 }
                             }
 
-                            reply newComment = new reply();
+                            SharedPreferences settings = getSharedPreferences("GlobalSettings", 0);
+                            String pname = settings.getString("personName", "NOT FOUND");
+
+                            Reply newComment = new Reply();
+                            newComment.setReplyName(pname);
 
 
                             newComment.wholeMsg = input;

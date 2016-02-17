@@ -1,12 +1,12 @@
 package com.example.axelle.travelbuddy;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.text.Html;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.axelle.travelbuddy.booking.Reply;
 import com.firebase.client.Query;
 
 import java.util.Collections;
@@ -14,18 +14,20 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.axelle.travelbuddy.db.DBUtil;
-import com.example.axelle.travelbuddy.booking.reply;
+
+import org.w3c.dom.Text;
+
 /**
  * Created by roncool on 11/22/15.
  */
-public class ReplyListAdapter extends FirebaseListAdapter<reply> {
+public class ReplyListAdapter extends FirebaseListAdapter<Reply> {
     // The mUsername for this client. We use this to indicate which messages originated from this user
     private String roomName;
     MainActivity activity;
 
 
     public ReplyListAdapter(Query ref, Activity activity, int layout, String roomName) {
-        super(ref, reply.class, layout, activity);
+        super(ref, Reply.class, layout, activity);
 
         // Must be MainActivity
         assert (activity instanceof MainActivity);
@@ -42,7 +44,7 @@ public class ReplyListAdapter extends FirebaseListAdapter<reply> {
      * @param question An instance representing the current state of a chat message
      */
     @Override
-    protected void populateView(View view, reply question) {
+    protected void populateView(View view, Reply question) {
         DBUtil dbUtil = activity.getDbutil();
 
 
@@ -68,9 +70,12 @@ public class ReplyListAdapter extends FirebaseListAdapter<reply> {
 
         TextView a = (TextView) view.findViewById(R.id.timeStamp);
         a.setText(dateString);
+
+        TextView p = (TextView) view.findViewById(R.id.pername);
+        p.setText(question.getReplyName());
 /**
 
-        Button replyButton = (Button) view.findViewById(R.id.reply);
+        Button replyButton = (Button) view.findViewById(R.id.Reply);
         replyButton.setTag(question.getKey());
 
         replyButton.setOnClickListener(
@@ -185,12 +190,12 @@ public class ReplyListAdapter extends FirebaseListAdapter<reply> {
     }
 
     @Override
-    protected void sortModels(List<reply> mModels) {
+    protected void sortModels(List<Reply> mModels) {
         Collections.sort(mModels);
     }
 
     @Override
-    protected void setKey(String key, reply model) {
+    protected void setKey(String key, Reply model) {
         Random r = new Random();
         int Low = 10;
         int High = 100;
