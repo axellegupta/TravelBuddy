@@ -8,18 +8,17 @@
     <string name="action_settings">Exit App</string>
     <string name="title_activity_home_view">home</string>
 
-    <string name="title_section1">Book New</string>
-    <string name="title_section2">All Bookings</string>
-    <string name="title_section3">Buddies U Know</string>
+    <string name="title_section1">New Ride</string>
+    <string name="title_section2">All Rides</string>
     <string name="title_section4">LogOut</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_example">/@_@\</string>
+    <string name="action_example">\@_@\</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">New Ride</string>
     <string name="place_details">place_details</string>
     <string name="title_activity_main">Travel Buddy</string>
 
@@ -66,7 +65,7 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
          from https://console.developers.google.com/ -->
     <string name="server_client_id">YOUR_SERVER_CLIENT_ID</string>
-    <string name="title_activity_journey_later">Journey Later</string>
+    <string name="title_activity_journey_later">New Ride</string>
 
     <string name="error_invalid_room_name">Use only alphanumeric characters</string>
     <string name="error_field_required">This field is required</string>

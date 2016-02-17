@@ -63,13 +63,16 @@ public class BookingListAdapter extends FirebaseListAdapter<Booking> {
         TextView bookDate = (TextView) view.findViewById(R.id.bookDate);
         TextView bookTime = (TextView) view.findViewById(R.id.bookTime);
         TextView venue = (TextView) view.findViewById(R.id.bookVenue);
-        TextView name = (TextView) view.findViewById(R.id.name);
+        TextView name = (TextView) view.findViewById(R.id.idname);
+        TextView displayName = (TextView) view.findViewById(R.id.displayName);
 
         String date = question.getCalendarDay() + "/" + question.getCalendarMonth() + "/" + question.getCalendarYear();
         venue.setText(question.getDisplay());
         bookDate.setText(date);
         bookTime.setText(question.getTime());
         name.setText(question.getUsername());
+        displayName.setText(question.getDisplayName());
+
 
 // TIMESTAMP
         String dateString;

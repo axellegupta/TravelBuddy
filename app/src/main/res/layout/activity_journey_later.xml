@@ -115,7 +115,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="addEvent"
-        android:text="Confirm &amp; Add Event"
+        android:text="Confirm &amp; Add Ride"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true" />
 
@@ -124,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="viewBookings"
-        android:text="View all bookings"
+        android:text="View all rides"
         android:layout_below="@+id/button2"
         android:layout_centerHorizontal="true" />
 

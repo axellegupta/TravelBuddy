@@ -104,17 +104,11 @@ public class HomeView extends AppCompatActivity
                 startActivity(mIntent);
                 break;
             case 2:
-                fragment = new PlaceholderFragment().newInstance(position + 1);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit();
-                break;
-            case 3:
                 Intent intent = new Intent(this, PrimaryActivity.class);
                 startActivity(intent);
                 break;
             default:
-                fragment = new PlaceholderFragment().newInstance(position + 1);
+                fragment = new NewBooking().newInstance(position + 1);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment)
                         .commit();
@@ -132,9 +126,6 @@ public class HomeView extends AppCompatActivity
                 mTitle = getString(R.string.title_section2);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
                 mTitle = getString(R.string.title_section4);
                 break;
         }
@@ -187,46 +178,6 @@ public class HomeView extends AppCompatActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_home_view, container, false);
-            return rootView;
-
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((HomeView) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
 
     class NewBooking extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";

@@ -86,6 +86,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:text="CHaT"
-        android:background="@android:color/holo_blue_dark" />
+        android:background="@android:color/holo_blue_dark"
+        android:layout_alignBottom="@+id/close" />
 
 </RelativeLayout>

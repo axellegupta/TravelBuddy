@@ -20,7 +20,7 @@
     <Button
         android:layout_width="228dp"
         android:layout_height="wrap_content"
-        android:text="Go To Maps"
+        android:text="New ride"
         android:id="@+id/button"
         android:layout_gravity="center"
         android:onClick="openMap"

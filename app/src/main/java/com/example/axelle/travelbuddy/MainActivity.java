@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +34,7 @@ public class MainActivity extends ListActivity {
     private DBUtil dbutil;
     public boolean sort;
     public String whoami;
+    private boolean addnew = true;
 
     public DBUtil getDbutil() {
         return dbutil;
@@ -55,7 +55,7 @@ public class MainActivity extends ListActivity {
 
 
 // ROOM
-        roomName = "All Bookings";
+        roomName = "All Rides";
 
         setTitle("Room name: " + roomName);
         TextView textViewToChange = (TextView) findViewById(R.id.welcome);
@@ -158,12 +158,17 @@ public class MainActivity extends ListActivity {
 
         SharedPreferences settings = getSharedPreferences("GlobalSettings", 0);
         String email = settings.getString("personEmail", "EMAIL NOT FOUND");
+        String pname = settings.getString("personName", "EMAIL NOT FOUND");
 
-        if (display == null || time == null || time.equals("") || from == null || to == null) {
+        if (addnew==false || display == null || time == null || time.equals("") || from == null || to == null) {
             return;
         }
 
-        Booking question = new Booking("user", year, month, day, time, from, to, display, email);
+        addnew = false;
+
+
+
+        Booking question = new Booking("null", year, month, day, time, from, to, display, email, pname);
         // Create a new, auto-generated child of that chat location, and save our chat data there
         mFirebaseRef.push().setValue(question);
     }
@@ -441,6 +446,7 @@ public class MainActivity extends ListActivity {
     }
 
     public void Close(View view) {
+        addnew = false;
         finish();
     }
 
@@ -449,7 +455,7 @@ public class MainActivity extends ListActivity {
         SharedPreferences settings = getSharedPreferences("GlobalSettings", 0);
         String email = settings.getString("personEmail", "EMAIL NOT FOUND");
         whoami=email;
-        TextView name = (TextView) findViewById(R.id.name);
+        TextView name = (TextView) findViewById(R.id.idname);
 
 
         switch (view.getId()) {
@@ -464,9 +470,14 @@ public class MainActivity extends ListActivity {
     }
 
     public void onReply(String key) {
+
+        SharedPreferences settings = getSharedPreferences("GlobalSettings", 0);
+        String replyer = settings.getString("personName", "NOT FOUND");
+
         Intent intent = new Intent(this, ReplyActivity.class);
         intent.putExtra("ROOM_NAME", roomName);
         intent.putExtra("KEY", key);
+        intent.putExtra("replyer", replyer);
 
         startActivity(intent);
     }

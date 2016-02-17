@@ -10,6 +10,7 @@ public class reply implements Comparable<reply>{
     private int key;
     private double id;
     public String wholeMsg;
+    public String replyName;
     //  private String headLastChar;
     //  private String desc;
     //   private String linkedDesc;
@@ -65,18 +66,21 @@ public class reply implements Comparable<reply>{
      *
      * @param message string message
      */
-    public reply(String message) {
+    public reply(String message, String replyName) {
         this.wholeMsg = message;
         this.echo = 0;
+
+        this.replyName=replyName;
 
         this.reports = 0;
         this.timestamp = new Date().getTime();
         this.id = 3;
     }
 
-    public reply(String message, int key) {
+    public reply(String message, int key, String replyName) {
         this.wholeMsg = message;
         this.echo = 0;
+        this.replyName=replyName;
 
         this.reports = 0;
         this.timestamp = new Date().getTime();
@@ -169,4 +173,10 @@ public class reply implements Comparable<reply>{
     public int hashCode() {
         return key;
     }
+
+    public String getReplyName() {
+        return this.replyName;
+    }
+
+
 }

@@ -131,7 +131,7 @@ public class PrimaryActivity extends AppCompatActivity implements
             editor.putString("personName", personName);
             editor.putString("personEmail", personEmail);
             editor.putString("personId", personId);
-            editor.putString("personPhoto", personPhoto.toString());
+//            editor.putString("personPhoto", personPhoto.toString());
 
             editor.commit();
         }

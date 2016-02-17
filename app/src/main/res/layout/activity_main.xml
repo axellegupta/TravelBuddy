@@ -46,7 +46,7 @@
         android:elevation="50dp"
         android:padding="@dimen/abc_action_bar_subtitle_bottom_margin_material"
         android:singleLine="false"
-        android:text="BOOKINGS DataBase"
+        android:text="All rides"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textIsSelectable="true"

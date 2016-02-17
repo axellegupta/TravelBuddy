@@ -45,7 +45,7 @@ public class JourneyLaterActivity extends AppCompatActivity {
 
         Calendar now = GregorianCalendar.getInstance();
 
-        calendar.setMinDate(now.getTime().getTime());
+        calendar.setMinDate(now.getTime().getTime() - 5000);
 
         now.add(Calendar.MONTH, 1);
 

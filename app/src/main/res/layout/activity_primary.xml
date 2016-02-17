@@ -69,7 +69,8 @@
             android:foregroundGravity="center_vertical|center|center_horizontal"
             android:gravity="center"
             android:text="Disconnect"
-            android:textStyle="normal" />
+            android:textStyle="normal"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/sign_out_button"

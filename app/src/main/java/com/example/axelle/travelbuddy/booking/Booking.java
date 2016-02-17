@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 
 public class Booking implements Comparable<Booking> {
 
+    private String displayName;
     private String display;
     /**
      * Must be synced with firebase JSON structure
@@ -74,7 +75,7 @@ public class Booking implements Comparable<Booking> {
      *
      * @param message string message
      */
-    public Booking(String message, int year, int month, int day, String time, String from, String to, String display, String username) {
+    public Booking(String message, int year, int month, int day, String time, String from, String to, String display, String username, String displayName) {
         this.wholeMsg = message;
         this.echo = 0;
         this.reports = 0;
@@ -86,6 +87,7 @@ public class Booking implements Comparable<Booking> {
         this.to = to;
         this.display=display;
         this.username = username;
+        this.displayName = displayName;
 
 
         String[] arr1 = time.split(":");
@@ -223,4 +225,7 @@ public class Booking implements Comparable<Booking> {
     }
 
 
+    public String getDisplayName() {
+        return this.displayName;
+    }
 }
